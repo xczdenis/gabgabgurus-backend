@@ -104,6 +104,7 @@ ping:
 # display info about: current envs, project name etc.
 .PHONY: info
 info:
+	$(call log, INFORMATION (${CURRENT_ENVIRONMENT_PREFIX}))
 	@echo "PROJECT_NAME        = ${INFO}${PROJECT_NAME}${RESET}"
 	@echo "ENVIRONMENT         = ${INFO}${ENVIRONMENT}${RESET}"
 	@echo "DOCKER_IMG_PLATFORM = ${INFO}${DOCKER_IMG_PLATFORM}${RESET}"
