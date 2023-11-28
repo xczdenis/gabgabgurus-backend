@@ -105,9 +105,9 @@ ping:
 # display info about: current envs, project name etc.
 .PHONY: info
 info:
-	$(call log, INFORMATION (${CURRENT_ENVIRONMENT_PREFIX}))
+	$(call log, INFORMATION (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	@echo "PROJECT_NAME        = ${INFO}${PROJECT_NAME}${RESET}"
-	@echo "ENVIRONMENT         = ${INFO}${ENVIRONMENT}${RESET}"
+	@echo "ENVIRONMENT         = ${RED}${ENVIRONMENT}${RESET}"
 	@echo "DOCKER_IMG_PLATFORM = ${INFO}${DOCKER_IMG_PLATFORM}${RESET}"
 
 
@@ -224,7 +224,7 @@ env:
 # stop and remove all running containers
 .PHONY: down _down-prod _down-dev _down-test
 down:
-	$(call log, Down containers (${CURRENT_ENVIRONMENT_PREFIX}))
+	$(call log, Down containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	@make _down-prod
 	@make _down-dev
 	@make _down-test
@@ -242,7 +242,7 @@ _down-test:
 # build and run docker containers in demon mode
 .PHONY: run
 run: down
-	$(call log, Run containers (${CURRENT_ENVIRONMENT_PREFIX}))
+	$(call log, Run containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	$(call run_docker_compose_for_current_env, --profile default ${COMPOSE_OPTION_START_AS_DEMON} ${s})
 
 
@@ -302,10 +302,10 @@ stop:
 	    make stopall; \
 	fi
 stops:
-	$(call log, Stop containers (${CURRENT_ENVIRONMENT_PREFIX}))
+	$(call log, Stop containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	$(call run_docker_compose_for_current_env, --profile default stop ${s})
 stopall:
-	$(call log, Stop containers (${CURRENT_ENVIRONMENT_PREFIX}))
+	$(call log, Stop containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	$(call run_docker_compose_for_current_env, --profile default stop)
 
 
@@ -319,7 +319,7 @@ start:
 	    make starts; \
 	fi
 starts:
-	$(call log, Start containers (${CURRENT_ENVIRONMENT_PREFIX}))
+	$(call log, Start containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	$(call run_docker_compose_for_current_env, --profile default start ${s})
 
 
@@ -333,10 +333,10 @@ build:
 	    make build-all; \
 	fi
 build-profile:
-	$(call log, Build images for profile ${p} (${CURRENT_ENVIRONMENT_PREFIX}))
+	$(call log, Build images for profile ${p} (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	$(call run_docker_compose_for_current_env, --profile ${p} build)
 build-all:
-	$(call log, Build all images (${CURRENT_ENVIRONMENT_PREFIX}))
+	$(call log, Build all images (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	$(call run_docker_compose_for_current_env, --profile default build)
 
 
