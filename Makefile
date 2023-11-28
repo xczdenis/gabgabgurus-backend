@@ -17,18 +17,19 @@ COMPOSE_PROFILE_DEFAULT=""--profile default""
 # define standard colors
 ifneq (,$(findstring xterm,${TERM}))
 	BLACK        := $(shell printf "\033[30m")
-	RED          := $(shell printf "\033[91m")
-	GREEN        := $(shell printf "\033[92m")
+	RED          := $(shell printf "\033[31m")
+	GREEN        := $(shell printf "\033[32m")
 	YELLOW       := $(shell printf "\033[33m")
-	BLUE         := $(shell printf "\033[94m")
-	PURPLE       := $(shell printf "\033[95m")
+	PURPLE       := $(shell printf "\033[34m")
+	PINK         := $(shell printf "\033[35m")
+	BLUE         := $(shell printf "\033[36m")
 	ORANGE       := $(shell printf "\033[93m")
 	WHITE        := $(shell printf "\033[97m")
 	RESET        := $(shell printf "\033[00m")
-	INFO         := $(shell printf "\033[94m")
-	SUCCESS      := $(shell printf "\033[92m")
-	WARNING      := $(shell printf "\033[93m")
-	DANGER       := $(shell printf "\033[91m")
+	INFO         := $(shell printf "\033[36m")
+	SUCCESS      := $(shell printf "\033[32m")
+	WARNING      := $(shell printf "\033[33m")
+	DANGER       := $(shell printf "\033[31m")
 else
 	BLACK        := ""
 	RED          := ""
@@ -108,6 +109,20 @@ info:
 	@echo "PROJECT_NAME        = ${INFO}${PROJECT_NAME}${RESET}"
 	@echo "ENVIRONMENT         = ${INFO}${ENVIRONMENT}${RESET}"
 	@echo "DOCKER_IMG_PLATFORM = ${INFO}${DOCKER_IMG_PLATFORM}${RESET}"
+
+
+# display info about running docker containers, images, volumes
+.PHONY: di
+di:
+	@echo "${INFO}Running containers:${RESET}"
+	@docker ps
+	@echo "${INFO}All containers:${RESET}"
+	@docker ps -a
+	@echo "${INFO}All images:${RESET}"
+	@docker images
+	@echo "${INFO}All volumes:${RESET}"
+	@docker volume ls
+
 
 
 # check if Postgres is available
