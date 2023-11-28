@@ -9,6 +9,7 @@ services:
             - ./docker/nginx/templates:/etc/nginx/templates:ro
             - ./index.html:/www/data/index.html
             - ./certbot/www:/var/www/certbot/:ro
+            - ./certbot/conf/:/etc/nginx/ssl/:ro
         ports:
             - 80:80
             - 443:443
