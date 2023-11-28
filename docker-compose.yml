@@ -1,0 +1,17 @@
+services:
+    proxy:
+        platform: ${DOCKER_IMG_PLATFORM:-linux/amd64}
+        build:
+            context: .
+            dockerfile: ./docker/nginx/Dockerfile
+        volumes:
+            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./docker/nginx/templates:/etc/nginx/templates:ro
+            - ./index.html:/www/data/index.html
+        ports:
+            - 80:80
+
+volumes:
+    postgres_data:
+    app_static:
+    redis_data:

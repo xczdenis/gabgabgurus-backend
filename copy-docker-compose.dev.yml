@@ -1,0 +1,18 @@
+x-base-dev-service: &base-dev-service
+    restart: "no"
+
+services:
+    app:
+        <<: *base-dev-service
+        volumes:
+            - ./src/${PROJECT_NAME}:/app/src/${PROJECT_NAME}
+
+    postgres:
+        <<: *base-dev-service
+        ports:
+            - ${POSTGRES_PORT}:5432
+
+    redis:
+        <<: *base-dev-service
+        ports:
+            - ${REDIS_PORT}:6379
