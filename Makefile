@@ -101,6 +101,14 @@ ping:
 	echo "PONG"
 
 
+# display info about: current envs, project name etc.
+.PHONY: info
+info:
+	@echo "PROJECT_NAME        = ${INFO}${PROJECT_NAME}${RESET}"
+	@echo "ENVIRONMENT         = ${INFO}${ENVIRONMENT}${RESET}"
+	@echo "DOCKER_IMG_PLATFORM = ${INFO}${DOCKER_IMG_PLATFORM}${RESET}"
+
+
 # check if Postgres is available
 .PHONY: check_pg
 check_pg:
