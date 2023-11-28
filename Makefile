@@ -95,6 +95,12 @@ define check_service
 endef
 
 
+# check if the Makefile is available: it should return PONG
+.PHONY: ping
+ping:
+	echo "PONG"
+
+
 # check if Postgres is available
 .PHONY: check_pg
 check_pg:
