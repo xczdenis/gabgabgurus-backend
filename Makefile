@@ -122,7 +122,7 @@ endef
 run_docker_compose_for_env:
 	@DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
 		COMPOSE_PROJECT_NAME=${PROJECT_NAME} \
-		docker-compose \
+		docker compose \
 			-f ${DOCKER_COMPOSE_MAIN_FILE} \
 			$(strip ${override_file}) \
 			$(strip ${cmd})
@@ -179,7 +179,7 @@ remove:
 	@echo "Будут удалены все незапущенные контейнеры, все образы для незапущенных контейнеров и все тома для незапущенных контейнеров"
 	@read -p "${ORANGE}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
 	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
-	docker-compose down --rmi all --volumes --remove-orphans && docker system prune -a --volumes --force
+	docker compose down --rmi all --volumes --remove-orphans && docker system prune -a --volumes --force
 
 
 # create .env and .env.local files if they are not exist
