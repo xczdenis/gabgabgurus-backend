@@ -144,7 +144,7 @@ define run_docker_compose_for_env
     fi
 endef
 run_docker_compose_for_env:
-	@DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
+	DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
 		COMPOSE_PROJECT_NAME=${PROJECT_NAME} \
 		docker compose \
 			-f ${DOCKER_COMPOSE_MAIN_FILE} \
@@ -253,17 +253,17 @@ run-db: down
 	$(call run_docker_compose_for_current_env, --profile db ${COMPOSE_OPTION_START_AS_DEMON} ${s})
 
 
-# show service's logs
-.PHONY: logs logss
+# show service's logs (e.g.: make logs s=proxy)
+.PHONY: logs _logs
 logs:
-	@read -p "${ORANGE}Container name: ${RESET}" _TAG && \
-	if [ "_$${_TAG}" != "_" ]; then \
-		make logss s="$${_TAG}"; \
+	@if [ -z "${s}" ]; then \
+		read -p "${ORANGE}Container name: ${RESET}" _TAG && \
+		make _logs s="$${_TAG}"; \
 	else \
-	    echo aborting; exit 1; \
+	    make _logs s="${s}"; \
 	fi
-logss:
-	$(call run_docker_compose_for_current_env, logs ${s})
+_logs:
+	$(call run_docker_compose_for_current_env, logs -f ${s})
 
 
 # run bash into container
