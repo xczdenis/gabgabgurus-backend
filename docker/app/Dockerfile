@@ -3,7 +3,7 @@ ARG img=python:3.11-slim
 ARG work_dir=app
 ARG pckg_name
 
-FROM ${img} as base
+FROM ${img} AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \

@@ -1,4 +1,4 @@
-DEFAULT_PROJECT_NAME=gabgabgurus
+DEFAULT_PROJECT_NAME=gabgabgurus-backend
 
 PREFIX_DEV=dev
 PREFIX_TEST=test
@@ -144,7 +144,7 @@ define run_docker_compose_for_env
     fi
 endef
 run_docker_compose_for_env:
-	DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
+	@DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
 		COMPOSE_PROJECT_NAME=${PROJECT_NAME} \
 		docker compose \
 			-f ${DOCKER_COMPOSE_MAIN_FILE} \
@@ -370,7 +370,7 @@ prune-n:
 # show docker-compose configuration
 .PHONY: config
 config:
-	$(call log, Docker-compose configuration (${CURRENT_ENVIRONMENT_PREFIX}))
+	$(call log, Docker-compose configuration (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	$(call run_docker_compose_for_current_env, ${COMPOSE_PROFILE_DEFAULT} config)
 
 

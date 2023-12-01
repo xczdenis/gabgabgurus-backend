@@ -1,11 +1,16 @@
 x-base-dev-service: &base-dev-service
     restart: "no"
+    networks:
+        - default
 
 services:
     app:
         <<: *base-dev-service
         volumes:
             - ./src/${PROJECT_NAME}:/app/src/${PROJECT_NAME}
+        networks:
+            - default
+            - gabgabgurus_external
 
     postgres:
         <<: *base-dev-service
@@ -16,3 +21,8 @@ services:
         <<: *base-dev-service
         ports:
             - ${REDIS_PORT}:6379
+
+networks:
+    gabgabgurus_external:
+        external: true
+        name: gabgabgurus_external
