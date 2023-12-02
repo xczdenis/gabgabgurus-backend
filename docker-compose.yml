@@ -10,13 +10,7 @@ x-common-healthcheck: &common-healthcheck
 services:
     app:
         <<: *base-service
-        build:
-            context: .
-            dockerfile: deploy/app/Dockerfile
-            args:
-                env: ${ENVIRONMENT}
-                img: ${PYTHON_IMG}
-                pckg_name: ${PROJECT_NAME}
+        image: ${APP_IMG}
         environment:
             APP_HOST: 0.0.0.0
             APP_PORT: 8000

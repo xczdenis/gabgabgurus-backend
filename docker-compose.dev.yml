@@ -6,6 +6,13 @@ x-base-dev-service: &base-dev-service
 services:
     app:
         <<: *base-dev-service
+        build:
+            context: .
+            dockerfile: deploy/app/Dockerfile
+            args:
+                env: ${ENVIRONMENT}
+                img: ${PYTHON_IMG}
+                pckg_name: ${PROJECT_NAME}
         volumes:
             - ./src/${PROJECT_NAME}:/app/src/${PROJECT_NAME}
         networks:
