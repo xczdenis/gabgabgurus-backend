@@ -223,6 +223,16 @@ env:
     fi
 
 
+# build all docker images
+.PHONY: build build-profile
+build:
+	$(call log, Build all images (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
+	$(call run_docker_compose_for_current_env, --profile default build)
+build-profile:
+	$(call log, Build images for profile ${p} (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
+	$(call run_docker_compose_for_current_env, --profile ${p} build)
+
+
 # stop and remove all running containers
 .PHONY: down _down-prod _down-dev _down-test
 down:
@@ -248,11 +258,18 @@ run: down
 	$(call run_docker_compose_for_current_env, --profile default ${COMPOSE_OPTION_START_AS_DEMON} ${s})
 
 
-# build and run docker containers in demon mode for db profile
+# down running containers, then build and run docker containers in demon mode for db profile
 .PHONY: run-db
 run-db: down
 	$(call log, Run containers for db profile (${CURRENT_ENVIRONMENT_PREFIX}))
 	$(call run_docker_compose_for_current_env, --profile db ${COMPOSE_OPTION_START_AS_DEMON} ${s})
+
+
+# run docker containers in demon mode
+.PHONY: up
+up:
+	$(call log, Run containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
+	$(call run_docker_compose_for_current_env, --profile default up -d)
 
 
 # show service's logs (e.g.: make logs s=proxy)
@@ -312,27 +329,16 @@ stopall:
 
 
 # start services
-.PHONY: start starts
+.PHONY: start _start
 start:
-	@read -p "(${CURRENT_ENVIRONMENT_PREFIX}) ${ORANGE}Service name (press Enter to start all services): ${RESET}" _TAG && \
-	if [ "_$${_TAG}" != "_" ]; then \
-		make starts s="$${_TAG}"; \
+	@if [ -z "${s}" ]; then \
+		read -p "${ORANGE}Container name: ${RESET}" _TAG && \
+		make _start s="$${_TAG}"; \
 	else \
-	    make starts; \
+	    make _start s="${s}"; \
 	fi
-starts:
-	$(call log, Start containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
+_start:
 	$(call run_docker_compose_for_current_env, --profile default start ${s})
-
-
-# build all docker images
-.PHONY: build build-profile
-build:
-	$(call log, Build all images (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
-	$(call run_docker_compose_for_current_env, --profile default build)
-build-profile:
-	$(call log, Build images for profile ${p} (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
-	$(call run_docker_compose_for_current_env, --profile ${p} build)
 
 
 # show docker-compose status
