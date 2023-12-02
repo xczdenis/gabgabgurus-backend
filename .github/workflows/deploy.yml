@@ -3,6 +3,7 @@ name: Deploy workflow
 env:
     ENVIRONMENT: production
     PYTHON_IMG: python:3.11-slim
+    APP_IMG_NAME: ggb-back:latest
 
 on:
     pull_request:
@@ -33,7 +34,7 @@ jobs:
                     context: .
                     file: ./deploy/app/Dockerfile
                     push: true
-                    tags: ${{ secrets.DOCKERHUB_USERNAME }}/ggb-back:latest
+                    tags: ${{ secrets.APP_IMG_NAME }}
                     build-args: |
                         env=${{ env.ENVIRONMENT }}
                         img=${{ env.PYTHON_IMG }}
