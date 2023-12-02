@@ -18,7 +18,7 @@ WORKDIR ${work_dir}
 FROM base as builder
 
 COPY ./scripts ./scripts
-COPY ./docker/app/scripts ./scripts
+COPY ./deploy/app/scripts ./scripts
 RUN chmod -R 777 ./scripts
 
 RUN apt-get update \

@@ -15,16 +15,8 @@ log_info "Collect static"
 python src/gabgabgurus/manage.py collectstatic --noinput
 echo ""
 
-log_info "Create superuser"
-python src/gabgabgurus/manage.py create_superuser
-echo ""
-
-log_info "Create languages"
-python src/gabgabgurus/manage.py create_languages
-echo ""
-
-log_info "Create countries"
-python src/gabgabgurus/manage.py create_countries
+log_info "Init data"
+python src/gabgabgurus/manage.py init_data
 echo ""
 
 ./scripts/start.sh

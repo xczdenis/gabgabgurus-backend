@@ -351,19 +351,49 @@ status-all:
 # remove all stopped containers/unused images/unused volumes/unused networks
 .PHONY: prune prune-с prune-i prune-v prune-n
 prune:
-	$(call log, Remove all stopped containers)
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker system prune${DANGER}>."
+	@echo "${DANGER}Будут удалены все не запущенные контейнеры, сети, зависшие образы и очищен кэш."
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
+	$(call log, Docker system prune)
 	docker system prune
 prune-c:
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker container prune${DANGER}>."
+	@echo "${DANGER}Будут удалены все не запущенные контейнеры"
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
 	$(call log, Remove all stopped containers)
 	docker container prune
 prune-i:
-	$(call log, Remove all stopped containers)
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker images prune${DANGER}>."
+	@echo "${DANGER}Будут удалены все зависшие образы"
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
+	$(call log, Remove all unused images)
 	docker images prune
 prune-v:
-	$(call log, Remove all stopped containers)
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker volume prune${DANGER}>."
+	@echo "${DANGER}Будут удалены все не используемые тома"
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
+	$(call log, Remove all unused volumes)
 	docker volume prune
 prune-n:
-	$(call log, Remove all stopped containers)
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker network prune${DANGER}>."
+	@echo "${DANGER}Будут удалены не используемые сети"
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
+	$(call log, Remove all unused networks)
 	docker network prune
 
 
@@ -420,6 +450,12 @@ su: check_pg
 	@python src/gabgabgurus/manage.py create_superuser
 
 
+# create all data in the db form files in the "init_data" folder: countries, languages, hobbies
+.PHONY: init-data
+init-data: check_pg
+	@python src/gabgabgurus/manage.py init_data
+
+
 # create all countries from init_data/countries_languages.json
 .PHONY: init-c
 init-c: check_pg
@@ -430,6 +466,11 @@ init-c: check_pg
 .PHONY: init-l
 init-l: check_pg
 	@python src/gabgabgurus/manage.py create_languages
+
+# create all hobbies from init_data/hobbies.json
+.PHONY: init-h
+init-h: check_pg
+	@python src/gabgabgurus/manage.py create_hobbies
 
 # create new django app
 .PHONY: app
@@ -451,3 +492,9 @@ app:
 serve: check_pg
 	$(call check_service,"Postgres",${POSTGRES_HOST},${POSTGRES_PORT})
 	@python src/gabgabgurus/manage.py runserver ${APP_HOST}:${APP_PORT}
+
+
+# copy production ready ".env" file from "./deploy/.env" to remote server
+.PHONY: send-env
+send-env:
+	@scp -i ${SSH_PUBLIC_KEY_PATH} ./deploy/.env ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
