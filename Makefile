@@ -325,21 +325,14 @@ starts:
 	$(call run_docker_compose_for_current_env, --profile default start ${s})
 
 
-# build containers
-.PHONY: build build-profile build-all
+# build all docker images
+.PHONY: build build-profile
 build:
-	@read -p "(${CURRENT_ENVIRONMENT_PREFIX}) ${ORANGE}Profile name (press Enter to build images for all profiles): ${RESET}" _TAG && \
-	if [ "_$${_TAG}" != "_" ]; then \
-		make build-profile p="$${_TAG}"; \
-	else \
-	    make build-all; \
-	fi
+	$(call log, Build all images (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
+	$(call run_docker_compose_for_current_env, --profile default build)
 build-profile:
 	$(call log, Build images for profile ${p} (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	$(call run_docker_compose_for_current_env, --profile ${p} build)
-build-all:
-	$(call log, Build all images (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
-	$(call run_docker_compose_for_current_env, --profile default build)
 
 
 # show docker-compose status
