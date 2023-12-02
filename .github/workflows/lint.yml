@@ -1,0 +1,31 @@
+name: Lint workflow
+
+on:
+    pull_request:
+
+jobs:
+    lint-black:
+        name: Lint by black
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
+            -   name: Lint by black
+                uses: psf/black@stable
+                with:
+                    options: "--check"
+                    src: "./src"
+
+    lint-flake8:
+        name: Lint by flake8
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
+            -   name: Lint by flake8
+                uses: py-actions/flake8@v2
+                with:
+                    max-line-length: "110"
+                    path: "src"
+                    plugins: "flake8-comprehensions flake8-quotes pep8-naming flake8-bandit flake8-black"
+                    exclude: "migrations/.*|__pycache__/.*|.venv/.*|.env/.*"

@@ -328,7 +328,7 @@ stopall:
 	$(call run_docker_compose_for_current_env, --profile default stop)
 
 
-# start services
+# start services (e.g.: start s=redis)
 .PHONY: start _start
 start:
 	@if [ -z "${s}" ]; then \

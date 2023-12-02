@@ -1,7 +1,7 @@
 ARG env=production
 ARG img=python:3.11-slim
 ARG work_dir=app
-ARG pckg_name
+ARG pckg_name=gabgabgurus
 
 FROM ${img} AS base
 
