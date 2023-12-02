@@ -118,10 +118,12 @@ di:
 	@docker ps
 	@echo "${INFO}All containers:${RESET}"
 	@docker ps -a
-	@echo "${INFO}All images:${RESET}"
+	@echo "${INFO}Images:${RESET}"
 	@docker images
-	@echo "${INFO}All volumes:${RESET}"
+	@echo "${INFO}Volumes:${RESET}"
 	@docker volume ls
+	@echo "${INFO}Networks:${RESET}"
+	@docker network ls
 
 
 
