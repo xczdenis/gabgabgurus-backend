@@ -36,4 +36,8 @@ jobs:
                         cd $SERVER_PROJECT_ROOT_DIR
                         git pull
                         docker pull $APP_IMG
+                        docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default down
+                        docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default up -d --build
+                        docker system prune -f
+
 
