@@ -7,7 +7,7 @@ from gabgabgurus.config.api_config import APIVersions
 app_name = "api"
 
 urlpatterns = [
-    path(f"{APIVersions.V1.value}/", include("api.v1.urls", namespace=APIVersions.V1.value)),
+    path(f"{APIVersions.V1.value}/", include("gabgabgurus.api.v1.urls", namespace=APIVersions.V1.value)),
 ]
 
 websocket_urlpatterns = [

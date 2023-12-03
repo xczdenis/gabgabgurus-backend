@@ -17,10 +17,6 @@ WORKDIR ${work_dir}
 
 FROM base as builder
 
-COPY ./scripts ./scripts
-COPY ./deploy/app/scripts ./scripts
-RUN chmod -R 777 ./scripts
-
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         python3-dev \
@@ -29,6 +25,10 @@ RUN apt-get update \
     && pip install poetry==${POETRY_VERSION} \
     && apt-get clean \
     && rm -rf /var/utils/apt/lists/*
+
+COPY ./scripts ./scripts
+COPY ./deploy/app/scripts ./scripts
+RUN chmod -R 777 ./scripts
 
 COPY pyproject.toml poetry.lock README.md ./
 

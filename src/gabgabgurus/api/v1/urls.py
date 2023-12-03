@@ -14,7 +14,7 @@ def make_path(package_name: str, url: str = ""):
 
 
 def make_include(package_name: str):
-    return include("api.v1.{package}.urls".format(package=package_name))
+    return include("gabgabgurus.api.v1.{package}.urls".format(package=package_name))
 
 
 api_packages = [
@@ -32,7 +32,7 @@ urlpatterns = [make_path(package_name) for package_name in api_packages]
 
 websocket_urlpatterns = []
 for package_name in api_packages:
-    module = import_module(f"api.v1.{package_name}.urls")
+    module = import_module(f"gabgabgurus.api.v1.{package_name}.urls")
     package_websocket_urlpatterns = getattr(module, "websocket_urlpatterns", None)
     if package_websocket_urlpatterns:
         websocket_urlpatterns += [

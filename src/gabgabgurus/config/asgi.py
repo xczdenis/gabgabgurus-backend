@@ -14,11 +14,14 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 from django.core.asgi import get_asgi_application
 
-from gabgabgurus.config.urls import websocket_urlpatterns
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gabgabgurus.config.settings")
 
 asgi_app = get_asgi_application()
+
+# In order to import websocket_urlpatterns from gabgabgurus.config.urls
+# we need to call django.setup() - this is called in get_asgi_application() function.
+# This is why we put import at here
+from gabgabgurus.config.urls import websocket_urlpatterns  # noqa E402
 
 application = ProtocolTypeRouter(
     {

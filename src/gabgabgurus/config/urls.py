@@ -16,7 +16,7 @@ urlpatterns = [
 
 # REST API
 urlpatterns += [
-    path(f"{api_config.base_path}/", include("api.urls")),
+    path(f"{api_config.base_path}/", include("gabgabgurus.api.urls")),
     path(f"{api_config.openapi_path}/", SpectacularAPIView.as_view(), name="openapi"),
     path(f"{api_config.swagger_path}/", SpectacularSwaggerView.as_view(url_name="openapi"), name="swagger"),
     path(f"{api_config.redoc_path}/", SpectacularRedocView.as_view(url_name="openapi"), name="redoc"),
