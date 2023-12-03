@@ -34,7 +34,7 @@ jobs:
                     context: .
                     file: ./deploy/app/Dockerfile
                     push: true
-                    tags: xczdenis/ggb-back:latest
+                    tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.APP_IMG_NAME }}
                     build-args: |
                         env=${{ env.ENVIRONMENT }}
                         img=${{ env.PYTHON_IMG }}
