@@ -3,7 +3,6 @@ name: Deploy workflow
 env:
     ENVIRONMENT: production
     PYTHON_IMG: python:3.11-slim
-    APP_IMG_TAG: latest
     SERVER_PROJECT_ROOT_DIR: ~/gabgabgurus/gabgabgurus-frontend
 
 on:
@@ -35,7 +34,7 @@ jobs:
                     context: .
                     file: ./deploy/app/Dockerfile
                     push: true
-                    tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.APP_IMG_NAME }}:${{ env.APP_IMG_TAG }}
+                    tags: ${{ secrets.APP_IMG_NAME }}
                     build-args: |
                         env=${{ env.ENVIRONMENT }}
                         img=${{ env.PYTHON_IMG }}
