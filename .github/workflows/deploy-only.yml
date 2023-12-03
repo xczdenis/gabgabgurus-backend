@@ -3,7 +3,7 @@ name: Deploy-only workflow
 env:
     ENVIRONMENT: production
     PYTHON_IMG: python:3.11-slim
-    APP_IMG_TAG: latest
+    APP_IMG_NAME: ggg-b:latest
     SERVER_PROJECT_ROOT_DIR: /home/denis/gabgabgurus/gabgabgurus-backend
 
 on:
@@ -24,7 +24,7 @@ jobs:
                 uses: appleboy/ssh-action@v1.0.0
                 env:
                     SERVER_PROJECT_ROOT_DIR: ${{ env.SERVER_PROJECT_ROOT_DIR }}
-                    APP_IMG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.APP_IMG_NAME }}:${{ env.APP_IMG_TAG }}
+                    APP_IMG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
                     COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
                 with:
                     host: ${{ secrets.PETS_HOST }}
