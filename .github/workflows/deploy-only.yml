@@ -5,7 +5,7 @@ env:
     PYTHON_IMG: python:3.11-slim
     APP_IMG_NAME: ggb-back:latest
     SERVER_PROJECT_ROOT_DIR: ~/gabgabgurus/gabgabgurus-frontend
-    SHB: "~/gabgabgurus/gabgabgurus-frontend"
+    SHB: ~/gabgabgurus/gabgabgurus-frontend
 
 on:
     pull_request:
@@ -28,7 +28,7 @@ jobs:
                     FOO: "FOO-FOO"
                     BAR: "BAR-BAR"
                     SHA: ${{ github.SERVER_PROJECT_ROOT_DIR }}
-                    SHB: ${{ github.SHB }}
+                    SHB: ${{ env.SHB }}
                 with:
                     host: ${{ secrets.PETS_HOST }}
                     username: ${{ secrets.PETS_USERNAME }}
