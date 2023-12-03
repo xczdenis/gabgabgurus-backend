@@ -1,4 +1,4 @@
-DEFAULT_PROJECT_NAME=gabgabgurus-backend
+DEFAULT_PROJECT_NAME=ggg-b
 
 PREFIX_DEV=dev
 PREFIX_TEST=test
@@ -269,7 +269,7 @@ run-db: down
 .PHONY: up
 up:
 	$(call log, Run containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
-	$(call run_docker_compose_for_current_env, --profile default up -d)
+	$(call run_docker_compose_for_current_env, --profile default up -d --build)
 
 
 # show service's logs (e.g.: make logs s=proxy)
