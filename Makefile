@@ -146,7 +146,12 @@ define run_docker_compose_for_env
     fi
 endef
 run_docker_compose_for_env:
-	@echo DOCKER_BUILDKIT=${DOCKER_BUILDKIT} COMPOSE_PROJECT_NAME=${PROJECT_NAME} docker compose -f ${DOCKER_COMPOSE_MAIN_FILE} $(strip ${override_file}) $(strip ${cmd})
+	@DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
+		COMPOSE_PROJECT_NAME=${PROJECT_NAME} \
+		docker compose \
+			-f ${DOCKER_COMPOSE_MAIN_FILE} \
+			$(strip ${override_file}) \
+			$(strip ${cmd})
 
 
 define run_docker_compose_for_current_env
