@@ -3,7 +3,7 @@ name: Deploy-only workflow
 env:
     ENVIRONMENT: production
     PYTHON_IMG: python:3.11-slim
-    APP_IMG_NAME: ggb-back:latest
+    APP_IMG: ggb-back:latest
     SERVER_PROJECT_ROOT_DIR: /home/denis/gabgabgurus/gabgabgurus-backend
 
 on:
@@ -24,16 +24,16 @@ jobs:
                 uses: appleboy/ssh-action@v1.0.0
                 env:
                     SERVER_PROJECT_ROOT_DIR: ${{ env.SERVER_PROJECT_ROOT_DIR }}
+                    APP_IMG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG }}
                 with:
                     host: ${{ secrets.PETS_HOST }}
                     username: ${{ secrets.PETS_USERNAME }}
                     key: ${{ secrets.PETS_GHA_KEY }}
                     port: ${{ secrets.PETS_SSH_PORT }}
-                    envs: SERVER_PROJECT_ROOT_DIR
+                    envs: SERVER_PROJECT_ROOT_DIR, APP_IMG
                     script_stop: true
                     script: |
-                        ls -al
-                        echo "dir = $SERVER_PROJECT_ROOT_DIR"
                         cd $SERVER_PROJECT_ROOT_DIR
-                        ls -al
+                        git pull
+                        docker pull $APP_IMG
 
