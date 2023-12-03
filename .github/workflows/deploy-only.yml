@@ -34,6 +34,7 @@ jobs:
                     username: ${{ secrets.PETS_USERNAME }}
                     key: ${{ secrets.PETS_GHA_KEY }}
                     port: ${{ secrets.PETS_SSH_PORT }}
+                    envs: FOO,BAR,SHA,SHB
                     script_stop: true
                     script: |
                         echo "I am $SERVER_PROJECT_ROOT_DIR"
