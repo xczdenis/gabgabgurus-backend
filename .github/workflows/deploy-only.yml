@@ -4,7 +4,7 @@ env:
     ENVIRONMENT: production
     PYTHON_IMG: python:3.11-slim
     APP_IMG_NAME: ggb-back:latest
-    SERVER_PROJECT_ROOT_DIR: ~/gabgabgurus/gabgabgurus-backend
+    SERVER_PROJECT_ROOT_DIR: /home/denis/gabgabgurus/gabgabgurus-backend
 
 on:
     pull_request:
