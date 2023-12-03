@@ -10,7 +10,6 @@ x-common-healthcheck: &common-healthcheck
 services:
     app:
         <<: *base-service
-        image: ${APP_IMG}
         environment:
             APP_HOST: 0.0.0.0
             APP_PORT: 8000

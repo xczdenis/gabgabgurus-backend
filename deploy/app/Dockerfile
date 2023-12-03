@@ -5,10 +5,6 @@ ARG pckg_name=gabgabgurus
 
 FROM ${img} AS base
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    POETRY_VERSION=1.7.0
-
 ARG env
 ARG work_dir
 ARG pckg_name
@@ -16,6 +12,10 @@ ARG pckg_name
 WORKDIR ${work_dir}
 
 FROM base as builder
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    POETRY_VERSION=1.7.0
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
