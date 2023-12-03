@@ -1,0 +1,35 @@
+name: Deploy-only workflow
+
+env:
+    ENVIRONMENT: production
+    PYTHON_IMG: python:3.11-slim
+    APP_IMG_NAME: ggb-back:latest
+    SERVER_PROJECT_ROOT_DIR: ~/gabgabgurus/gabgabgurus-frontend
+
+on:
+    pull_request:
+        branches:
+            - "main"
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        name: 🚀 Deploy
+        runs-on: ubuntu-latest
+        steps:
+            -   name: 📥 Check out the repo
+                uses: actions/checkout@v4
+
+            -   name: 🚀 Deploy to Remote Server
+                uses: appleboy/ssh-action@v1.0.0
+                env:
+                    SERVER_PROJECT_ROOT_DIR: ${{ env.SERVER_PROJECT_ROOT_DIR }}
+                with:
+                    host: ${{ secrets.PETS_HOST }}
+                    username: ${{ secrets.PETS_USERNAME }}
+                    key: ${{ secrets.PETS_GHA_KEY }}
+                    port: ${{ secrets.PETS_SSH_PORT }}
+                    script_stop: true
+                    script: |
+                        cd $SERVER_PROJECT_ROOT_DIR
+                        ls -al
