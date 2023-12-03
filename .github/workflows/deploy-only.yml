@@ -34,10 +34,8 @@ jobs:
                     envs: SERVER_PROJECT_ROOT_DIR, APP_IMG, COMPOSE_PROJECT_NAME
                     script_stop: true
                     script: |
-                        ls -al
                         cd $SERVER_PROJECT_ROOT_DIR
-                        ls -al
-#                        git pull
+                        git pull
 #                        docker pull $APP_IMG
 #                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default down
 #                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default up -d --build
