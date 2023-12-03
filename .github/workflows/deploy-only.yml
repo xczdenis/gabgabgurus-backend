@@ -5,6 +5,7 @@ env:
     PYTHON_IMG: python:3.11-slim
     APP_IMG_NAME: ggb-back:latest
     SERVER_PROJECT_ROOT_DIR: ~/gabgabgurus/gabgabgurus-frontend
+    SHB: "~/gabgabgurus/gabgabgurus-frontend"
 
 on:
     pull_request:
@@ -24,6 +25,10 @@ jobs:
                 uses: appleboy/ssh-action@v1.0.0
                 env:
                     SERVER_PROJECT_ROOT_DIR: ${{ env.SERVER_PROJECT_ROOT_DIR }}
+                    FOO: "FOO-FOO"
+                    BAR: "BAR-BAR"
+                    SHA: ${{ github.SERVER_PROJECT_ROOT_DIR }}
+                    SHB: ${{ github.SHB }}
                 with:
                     host: ${{ secrets.PETS_HOST }}
                     username: ${{ secrets.PETS_USERNAME }}
@@ -32,7 +37,7 @@ jobs:
                     script_stop: true
                     script: |
                         echo "I am $SERVER_PROJECT_ROOT_DIR"
-                        cd "$SERVER_PROJECT_ROOT_DIR"
-                        ls -al
-                        cd ~/gabgabgurus/gabgabgurus-frontend
-                        ls -al
+                        echo "I am $FOO"
+                        echo "sha: $BAR"
+                        echo "sha: $SHA"
+                        echo "shb: $SHB"
