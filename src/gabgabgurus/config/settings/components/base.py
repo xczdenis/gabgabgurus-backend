@@ -57,10 +57,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # "gabgabgurus.config.middleware.PresenceMiddleware",
 ]
 
-ROOT_URLCONF = "config.urls"
+ROOT_URLCONF = "gabgabgurus.config.urls"
 
 TEMPLATES = [
     {
@@ -78,8 +77,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
-ASGI_APPLICATION = "config.asgi.application"
+WSGI_APPLICATION = "gabgabgurus.config.wsgi.application"
+ASGI_APPLICATION = "gabgabgurus.config.asgi.application"
 
 AUTH_PASSWORD_VALIDATORS = [
     {

@@ -26,10 +26,6 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/utils/apt/lists/*
 
-COPY ./scripts ./scripts
-COPY ./deploy/app/scripts ./scripts
-RUN chmod -R 777 ./scripts
-
 COPY pyproject.toml poetry.lock README.md ./
 
 RUN mkdir -p /${work_dir}/src/${pckg_name} && touch /${work_dir}/src/${pckg_name}/__init__.py
@@ -37,6 +33,9 @@ RUN mkdir -p /${work_dir}/src/${pckg_name} && touch /${work_dir}/src/${pckg_name
 RUN poetry config virtualenvs.in-project true \
     && poetry install --only main
 
+COPY ./scripts ./scripts
+COPY ./deploy/app/scripts ./scripts
+RUN chmod -R 777 ./scripts
 
 FROM base as final
 
