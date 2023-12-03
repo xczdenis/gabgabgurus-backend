@@ -143,5 +143,4 @@ AUTH_USER_MODEL = "users.User"
 
 # CORS settings
 CORS_ALLOW_CREDENTIALS = True
-
 CORS_ALLOWED_ORIGINS = app_config.get_cors_allowed_origin_hosts()
