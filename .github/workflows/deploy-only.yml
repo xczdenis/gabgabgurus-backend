@@ -31,5 +31,8 @@ jobs:
                     port: ${{ secrets.PETS_SSH_PORT }}
                     script_stop: true
                     script: |
-                        cd $SERVER_PROJECT_ROOT_DIR
+                        echo "I am $SERVER_PROJECT_ROOT_DIR"
+                        cd "$SERVER_PROJECT_ROOT_DIR"
+                        ls -al
+                        cd ~/gabgabgurus/gabgabgurus-frontend
                         ls -al
