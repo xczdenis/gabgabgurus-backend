@@ -36,9 +36,7 @@ jobs:
                     script: |
                         cd $SERVER_PROJECT_ROOT_DIR
                         git pull
-#                        docker pull $APP_IMG
-#                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default down
-#                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default up -d --build
-#                        docker system prune -f
-
-
+                        docker pull $APP_IMG
+                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default down
+                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default up -d --build
+                        docker system prune -f
