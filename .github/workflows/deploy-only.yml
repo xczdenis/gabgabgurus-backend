@@ -5,7 +5,6 @@ env:
     PYTHON_IMG: python:3.11-slim
     APP_IMG_NAME: ggb-back:latest
     SERVER_PROJECT_ROOT_DIR: ~/gabgabgurus/gabgabgurus-backend
-    SHB: ~/gabgabgurus/gabgabgurus-backend
 
 on:
     pull_request:
@@ -34,8 +33,7 @@ jobs:
                     script_stop: true
                     script: |
                         ls -al
-                        echo "I am $SERVER_PROJECT_ROOT_DIR"
-                        echo "shb: $SHB"
+                        echo "dir = $SERVER_PROJECT_ROOT_DIR"
                         cd $SERVER_PROJECT_ROOT_DIR
                         ls -al
 
