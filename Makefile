@@ -234,19 +234,19 @@ build-profile:
 
 
 # stop and remove all running containers
-.PHONY: down _down-prod _down-dev _down-test
+.PHONY: down down-prod down-dev down-test
 down:
 	$(call log, Down containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	@make _down-prod
 	@make _down-dev
 	@make _down-test
-_down-prod:
+down-prod:
 	$(call run_docker_compose_for_env, "${PREFIX_PROD}", "${DOCKER_COMPOSE_PROD_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 	$(call run_docker_compose_for_env, "_", "${DOCKER_COMPOSE_PROD_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
-_down-dev:
+down-dev:
 	$(call run_docker_compose_for_env, "${PREFIX_DEV}", "${DOCKER_COMPOSE_DEV_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 	$(call run_docker_compose_for_env, "_", "${DOCKER_COMPOSE_DEV_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
-_down-test:
+down-test:
 	$(call run_docker_compose_for_env, "${PREFIX_TEST}", "${DOCKER_COMPOSE_TEST_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 	$(call run_docker_compose_for_env, "_", "${DOCKER_COMPOSE_TEST_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 
