@@ -109,6 +109,7 @@ info:
 	@echo "PROJECT_NAME        = ${INFO}${PROJECT_NAME}${RESET}"
 	@echo "ENVIRONMENT         = ${RED}${ENVIRONMENT}${RESET}"
 	@echo "DOCKER_IMG_PLATFORM = ${INFO}${DOCKER_IMG_PLATFORM}${RESET}"
+	@echo "APP_IMG 			   = ${INFO}${APP_IMG}${RESET}"
 
 
 # display info about running docker containers, images, volumes
