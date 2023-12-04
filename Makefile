@@ -237,9 +237,9 @@ build-profile:
 .PHONY: down down-prod down-dev down-test
 down:
 	$(call log, Down containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
-	@make _down-prod
-	@make _down-dev
-	@make _down-test
+	@make down-prod
+	@make down-dev
+	@make down-test
 down-prod:
 	$(call run_docker_compose_for_env, "${PREFIX_PROD}", "${DOCKER_COMPOSE_PROD_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 	$(call run_docker_compose_for_env, "_", "${DOCKER_COMPOSE_PROD_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
