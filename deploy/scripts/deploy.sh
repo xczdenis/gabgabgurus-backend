@@ -23,11 +23,11 @@ else
 fi
 
 log_info "Create a shared docker volume for collect backend static files"
-if ! docker volume ls | grep -q "$GGG_BACKEND_STATIC"; then
-    docker volume create "$GGG_BACKEND_STATIC"
-    log_info "Shared docker volume $GGG_BACKEND_STATIC created"
+if ! docker volume ls | grep -q "$GGG_BACKEND_STATIC_VOLUME"; then
+    docker volume create "$GGG_BACKEND_STATIC_VOLUME"
+    log_info "Shared docker volume $GGG_BACKEND_STATIC_VOLUME created"
 else
-    log_info "Shared docker volume $GGG_BACKEND_STATIC already exists"
+    log_info "Shared docker volume $GGG_BACKEND_STATIC_VOLUME already exists"
 fi
 
 
