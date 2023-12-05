@@ -53,6 +53,7 @@ class OAuth2LoginView(SocialLoginView):
             if code_verifier:
                 self.request.session["pkce_code_verifier"] = code_verifier
 
+            logger.info(f"stash_provider provider.id= {provider.id}")
             self.stash_provider(provider.id)
 
             client.state = SocialLogin.stash_state(self.request)
