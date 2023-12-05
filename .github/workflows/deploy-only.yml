@@ -26,17 +26,19 @@ jobs:
                     SERVER_PROJECT_ROOT_DIR: ${{ env.SERVER_PROJECT_ROOT_DIR }}
                     APP_IMG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
                     COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
+                    GGG_EXTERNAL_NETWORK: ${{ secrets.GGG_EXTERNAL_NETWORK }}
                 with:
                     host: ${{ secrets.PETS_HOST }}
                     username: ${{ secrets.PETS_USERNAME }}
                     key: ${{ secrets.PETS_GHA_KEY }}
                     port: ${{ secrets.PETS_SSH_PORT }}
-                    envs: SERVER_PROJECT_ROOT_DIR, APP_IMG, COMPOSE_PROJECT_NAME
+                    envs: SERVER_PROJECT_ROOT_DIR, APP_IMG, COMPOSE_PROJECT_NAME, GGG_EXTERNAL_NETWORK
                     script_stop: true
                     script: |
                         cd $SERVER_PROJECT_ROOT_DIR
                         git pull
                         docker pull $APP_IMG
+                        docker network create $GGG_EXTERNAL_NETWORK
                         COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default down
                         COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default up -d --build
                         docker system prune -f
