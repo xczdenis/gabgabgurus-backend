@@ -144,6 +144,9 @@ class SignInView(OAuth2LoginView):
         return response
 
     def post(self, request, *args, **kwargs):
+        oauth2_provider = request.session.get("oauth2_provider")
+        logger.info(f"post. oauth2_provider = {oauth2_provider}")
+
         provider_id = self.unstash_provider()
         self.adapter_class = self.get_adapter_class_by_provider_id(provider_id)
         SocialLogin.verify_and_unstash_state(request, request.data.get("state"))
