@@ -26,31 +26,31 @@ class OAuth2LoginView(SocialLoginView):
     adapter_class = OAuth2Adapter
 
     def dispatch(self, *args, **kwargs):
-        session_key = self.request.COOKIES.get(settings.SESSION_COOKIE_NAME)
-        logger.info(f"dispatch. session_key = {session_key}")
+        # session_key = self.request.COOKIES.get(settings.SESSION_COOKIE_NAME)
+        # logger.info(f"dispatch. session_key = {session_key}")
 
-        oauth2_provider = self.request.session.get("oauth2_provider")
-        logger.info(f"dispatch. oauth2_provider = {oauth2_provider}")
+        # oauth2_provider = self.request.session.get("oauth2_provider")
+        # logger.info(f"dispatch. oauth2_provider = {oauth2_provider}")
 
         self.set_adapter()
         return super().dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        logger.info(f"get. settings.SESSION_COOKIE_NAME = {settings.SESSION_COOKIE_NAME}")
+        # logger.info(f"get. settings.SESSION_COOKIE_NAME = {settings.SESSION_COOKIE_NAME}")
 
-        test_key = request.session.get("test_key")
-        logger.info(f"get. get-test-key = {test_key}")
+        # test_key = request.session.get("test_key")
+        # logger.info(f"get. get-test-key = {test_key}")
 
-        oauth2_provider = request.session.get("oauth2_provider")
-        logger.info(f"get. oauth2_provider = {oauth2_provider}")
+        # oauth2_provider = request.session.get("oauth2_provider")
+        # logger.info(f"get. oauth2_provider = {oauth2_provider}")
 
-        session_key = request.COOKIES.get(settings.SESSION_COOKIE_NAME)
-        logger.info(f"get. session_key = {session_key}")
+        # session_key = request.COOKIES.get(settings.SESSION_COOKIE_NAME)
+        # logger.info(f"get. session_key = {session_key}")
 
-        logger.info("get. set-test-key = test_value")
+        # logger.info("get. set-test-key = test_value")
         request.session["test_key"] = "test_value"
 
-        authorize_url = self.get_authorize_url()
+        authorize_url = self.get_authorize_url(request)
         print(request.session)
         return JsonResponse({"authorize_url": authorize_url})
 
@@ -58,7 +58,7 @@ class OAuth2LoginView(SocialLoginView):
         adapter = self.adapter_class(self.request)
         setattr(self, "adapter", adapter)
 
-    def get_authorize_url(self):
+    def get_authorize_url(self, request):
         authorize_url = ""
         adapter = self.get_adapter()
         if adapter:
@@ -74,8 +74,8 @@ class OAuth2LoginView(SocialLoginView):
             if code_verifier:
                 self.request.session["pkce_code_verifier"] = code_verifier
 
-            logger.info(f"stash_provider provider.id= {provider.id}")
-            self.stash_provider(provider.id)
+            # logger.info(f"stash_provider provider.id= {provider.id}")
+            self.stash_provider(provider.id, request)
 
             client.state = SocialLogin.stash_state(self.request)
             authorize_url = client.get_redirect_url(auth_url, auth_params)
@@ -101,25 +101,37 @@ class OAuth2LoginView(SocialLoginView):
         )
         return client
 
-    def stash_provider(self, provider_name):
+    def stash_provider(self, provider_name, request):
         self.request.session["oauth2_provider"] = provider_name
         session_key = self.request.COOKIES.get("sessionid")
-        logger.info(f"session_key = {session_key}")
+        # logger.info(f"session_key = {session_key}")
         if session_key:
             cache_key = f"oauth2_provider_{session_key}"
             cache.set(cache_key, provider_name)
 
-    def unstash_provider(self):
+        oauth2_provider = request.session.get("oauth2_provider")
+        logger.info(f"stash_provider. request = {oauth2_provider}")
+
+        oauth2_provider = self.request.session.get("oauth2_provider")
+        logger.info(f"stash_provider. self.request = {oauth2_provider}")
+
+    def unstash_provider(self, request):
+        oauth2_provider = request.session.get("oauth2_provider")
+        logger.info(f"unstash_provider. request = {oauth2_provider}")
+
+        oauth2_provider = self.request.session.get("oauth2_provider")
+        logger.info(f"unstash_provider. self.request = {oauth2_provider}")
+
         provider = ""
         if "oauth2_provider" not in self.request.session:
             logger.error("Unable to unstash oauth2_provider from request session")
 
             session_key = self.request.COOKIES[settings.SESSION_COOKIE_NAME]
-            logger.info(f"session_key = {session_key}")
+            # logger.info(f"session_key = {session_key}")
             if session_key:
                 cache_key = f"oauth2_provider_{session_key}"
                 provider = cache.get(cache_key)
-                logger.info(f"provider = {provider}")
+                # logger.info(f"provider = {provider}")
             else:
                 raise PermissionDenied()
         else:
@@ -150,13 +162,13 @@ class SignInView(OAuth2LoginView):
         return response
 
     def post(self, request, *args, **kwargs):
-        session_key = self.request.COOKIES.get(settings.SESSION_COOKIE_NAME)
-        logger.info(f"post. session_key = {session_key}")
+        # session_key = self.request.COOKIES.get(settings.SESSION_COOKIE_NAME)
+        # logger.info(f"post. session_key = {session_key}")
 
-        oauth2_provider = self.request.session.get("oauth2_provider")
-        logger.info(f"post. oauth2_provider = {oauth2_provider}")
+        # oauth2_provider = self.request.session.get("oauth2_provider")
+        # logger.info(f"post. oauth2_provider = {oauth2_provider}")
 
-        provider_id = self.unstash_provider()
+        provider_id = self.unstash_provider(request)
         self.adapter_class = self.get_adapter_class_by_provider_id(provider_id)
         SocialLogin.verify_and_unstash_state(request, request.data.get("state"))
         return super().post(request, *args, **kwargs)
