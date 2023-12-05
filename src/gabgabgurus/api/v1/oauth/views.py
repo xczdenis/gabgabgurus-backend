@@ -135,7 +135,8 @@ class OAuth2LoginView(SocialLoginView):
             else:
                 raise PermissionDenied()
         else:
-            provider = self.request.session.pop("oauth2_provider")
+            # provider = self.request.session.pop("oauth2_provider")
+            provider = self.request.session.get("oauth2_provider")
         return provider
 
     @classmethod
