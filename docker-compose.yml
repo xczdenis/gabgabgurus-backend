@@ -1,6 +1,15 @@
 x-base-service: &base-service
     platform: ${DOCKER_IMG_PLATFORM:-linux/amd64}
     restart: on-failure
+    profiles:
+        - default
+    networks:
+        - default
+
+x-web-and-back-shared-network: &web-and-back-shared-network
+    networks:
+        - default
+        - ggg_external
 
 x-common-healthcheck: &common-healthcheck
     interval: 3s
@@ -9,7 +18,7 @@ x-common-healthcheck: &common-healthcheck
 
 services:
     app:
-        <<: *base-service
+        <<: [ *web-and-back-shared-network, *base-service ]
         environment:
             APP_HOST: 0.0.0.0
             APP_PORT: 8000
@@ -20,33 +29,33 @@ services:
         env_file: .env
         volumes:
             - app_static:/app/src/gabgabgurus/staticfiles
+        ports:
+            - ${APP_PORT}:8000
         healthcheck:
             test: [ "CMD", "./scripts/wait-for-it.sh", "app:8000" ]
             <<: *common-healthcheck
         depends_on:
             - postgres
             - redis
-        profiles:
-            - default
 
-    proxy:
-        <<: *base-service
-        image: ${NGINX_IMG}
-        environment:
-            APP_HOST: app
-            APP_PORT: ${APP_PORT}
-            PROXY_LISTEN_PORT: ${PROXY_LISTEN_PORT}
-        volumes:
-            - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-            - ./deploy/nginx/templates:/etc/nginx/templates:ro
-            - app_static:/static
-        ports:
-            - ${PROXY_LISTEN_PORT}:${PROXY_LISTEN_PORT}
-        depends_on:
-            app:
-                condition: service_healthy
-        profiles:
-            - default
+    #    proxy:
+    #        <<: *base-service
+    #        image: ${NGINX_IMG}
+    #        environment:
+    #            APP_HOST: app
+    #            APP_PORT: ${APP_PORT}
+    #            PROXY_LISTEN_PORT: ${PROXY_LISTEN_PORT}
+    #        volumes:
+    #            - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    #            - ./deploy/nginx/templates:/etc/nginx/templates:ro
+    #            - app_static:/static
+    #        ports:
+    #            - ${PROXY_LISTEN_PORT}:${PROXY_LISTEN_PORT}
+    #        depends_on:
+    #            app:
+    #                condition: service_healthy
+    #        profiles:
+    #            - default
 
     postgres:
         <<: *base-service
@@ -72,3 +81,8 @@ volumes:
     postgres_data:
     app_static:
     redis_data:
+
+networks:
+    ggg_external:
+        external: true
+        name: ggg_external

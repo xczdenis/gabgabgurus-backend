@@ -11,7 +11,7 @@ from gabgabgurus.config.api_config import api_config
 
 # pages
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("api/admin/", admin.site.urls),
 ]
 
 # REST API

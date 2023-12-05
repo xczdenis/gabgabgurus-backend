@@ -14,9 +14,6 @@ services:
                 img: ${PYTHON_IMG}
         volumes:
             - ./src/gabgabgurus:/app/src/gabgabgurus
-        networks:
-            - default
-            - gabgabgurus_external
 
     postgres:
         <<: *base-dev-service
@@ -28,7 +25,3 @@ services:
         ports:
             - ${REDIS_PORT}:6379
 
-networks:
-    gabgabgurus_external:
-        external: true
-        name: gabgabgurus_external
