@@ -24,7 +24,7 @@ urlpatterns += [
 
 # Websockets
 websocket_urlpatterns = [
-    path(f"{api_config.base_path}/", URLRouter(websocket_urlpatterns)),
+    path(f"ws/{api_config.base_path}/", URLRouter(websocket_urlpatterns)),
 ]
 
 if settings.DEBUG:
