@@ -26,6 +26,9 @@ class OAuth2LoginView(SocialLoginView):
     adapter_class = OAuth2Adapter
 
     def dispatch(self, *args, **kwargs):
+        session_key = self.request.COOKIES.get(settings.SESSION_COOKIE_NAME)
+        logger.info(f"dispatch. session_key = {session_key}")
+
         oauth2_provider = self.request.session.get("oauth2_provider")
         logger.info(f"dispatch. oauth2_provider = {oauth2_provider}")
 
@@ -147,7 +150,10 @@ class SignInView(OAuth2LoginView):
         return response
 
     def post(self, request, *args, **kwargs):
-        oauth2_provider = request.session.get("oauth2_provider")
+        session_key = self.request.COOKIES.get(settings.SESSION_COOKIE_NAME)
+        logger.info(f"post. session_key = {session_key}")
+
+        oauth2_provider = self.request.session.get("oauth2_provider")
         logger.info(f"post. oauth2_provider = {oauth2_provider}")
 
         provider_id = self.unstash_provider()
