@@ -28,7 +28,7 @@ services:
             REDIS_PORT: 6379
         env_file: .env
         volumes:
-            - app_static:/app/src/gabgabgurus/staticfiles
+            - ggg_backend_static:/app/src/gabgabgurus/staticfiles
         ports:
             - ${APP_PORT}:8000
         healthcheck:
@@ -78,9 +78,11 @@ services:
             - db
 
 volumes:
-    postgres_data:
-    app_static:
     redis_data:
+    postgres_data:
+    ggg_backend_static:
+        external: true
+        name: ggg_backend_static
 
 networks:
     ggg_external:
