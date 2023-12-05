@@ -26,6 +26,9 @@ class OAuth2LoginView(SocialLoginView):
     adapter_class = OAuth2Adapter
 
     def dispatch(self, *args, **kwargs):
+        oauth2_provider = self.request.session.get("oauth2_provider")
+        logger.info(f"dispatch. oauth2_provider = {oauth2_provider}")
+
         self.set_adapter()
         return super().dispatch(*args, **kwargs)
 
