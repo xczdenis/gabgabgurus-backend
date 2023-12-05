@@ -171,8 +171,19 @@ class SignInView(OAuth2LoginView):
 
         provider_id = self.unstash_provider(request)
         self.adapter_class = self.get_adapter_class_by_provider_id(provider_id)
-        SocialLogin.verify_and_unstash_state(request, request.data.get("state"))
+        # SocialLogin.verify_and_unstash_state(request, request.data.get("state"))
+        self.verify_and_unstash_state(request, request.data.get("state"))
         return super().post(request, *args, **kwargs)
+
+    @classmethod
+    def verify_and_unstash_state(cls, request, verifier):
+        if "socialaccount_state" not in request.session:
+            raise PermissionDenied()
+        # state, verifier2 = request.session.pop("socialaccount_state")
+        state, verifier2 = request.session.get("socialaccount_state")
+        if verifier != verifier2:
+            raise PermissionDenied()
+        return state
 
 
 class OAuth2AuthorizeUrlView(OAuth2LoginView):
