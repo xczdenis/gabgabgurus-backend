@@ -63,32 +63,40 @@ class OAuth2LoginView(SocialLoginView):
         adapter = self.get_adapter()
         if adapter:
             provider = adapter.get_provider()
-            client = self.get_client(adapter)
-            action = self.request.GET.get("action", AuthAction.AUTHENTICATE)
+            client = self.get_client(adapter, request)
+            # action = self.request.GET.get("action", AuthAction.AUTHENTICATE)
+            action = request.GET.get("action", AuthAction.AUTHENTICATE)
             auth_url = adapter.authorize_url
-            auth_params = provider.get_auth_params(self.request, action)
+            # auth_params = provider.get_auth_params(request, action)
+            auth_params = provider.get_auth_params(request, action)
 
             pkce_params = provider.get_pkce_params()
             code_verifier = pkce_params.pop("code_verifier", None)
             auth_params.update(pkce_params)
             if code_verifier:
-                self.request.session["pkce_code_verifier"] = code_verifier
+                # self.request.session["pkce_code_verifier"] = code_verifier
+                request.session["pkce_code_verifier"] = code_verifier
 
             # logger.info(f"stash_provider provider.id= {provider.id}")
             self.stash_provider(provider.id, request)
 
-            client.state = SocialLogin.stash_state(self.request)
+            # client.state = SocialLogin.stash_state(self.request)
+            client.state = SocialLogin.stash_state(request)
             authorize_url = client.get_redirect_url(auth_url, auth_params)
         return authorize_url
 
     def get_adapter(self):
         return getattr(self, "adapter", None)
 
-    def get_client(self, adapter):
+    def get_client(self, adapter, request):
         provider = adapter.get_provider()
-        scope = provider.get_scope(self.request)
+        # scope = provider.get_scope(self.request)
+        scope = provider.get_scope(request)
+        logger.info(f"get_client. scope = {scope}")
+
         client = adapter.client_class(
-            self.request,
+            # self.request,
+            request,
             provider.app.client_id,
             provider.app.secret,
             adapter.access_token_method,
@@ -102,7 +110,9 @@ class OAuth2LoginView(SocialLoginView):
         return client
 
     def stash_provider(self, provider_name, request):
-        self.request.session["oauth2_provider"] = provider_name
+        # self.request.session["oauth2_provider"] = provider_name
+        request.session["oauth2_provider"] = provider_name
+
         session_key = self.request.COOKIES.get("sessionid")
         # logger.info(f"session_key = {session_key}")
         if session_key:
