@@ -9,7 +9,6 @@ values are overridden.
 
 DEBUG = False
 
-
 # Security
 # https://docs.djangoproject.com/en/3.2/topics/security/
 
@@ -20,5 +19,5 @@ SECURE_HSTS_PRELOAD = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = False
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
