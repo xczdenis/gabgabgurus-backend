@@ -81,7 +81,7 @@ class OAuth2LoginView(SocialLoginView):
 
     def stash_provider(self, provider_name):
         self.request.session["oauth2_provider"] = provider_name
-        session_key = self.request.COOKIES[settings.SESSION_COOKIE_NAME]
+        session_key = self.request.COOKIES.get("sessionid")
         logger.info(f"session_key = {session_key}")
         if session_key:
             cache_key = f"oauth2_provider_{session_key}"
