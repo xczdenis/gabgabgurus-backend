@@ -27,6 +27,7 @@ jobs:
                     APP_IMG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
                     COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
                     GGG_EXTERNAL_NETWORK: ${{ secrets.GGG_EXTERNAL_NETWORK }}
+                    GGG_BACKEND_STATIC_VOLUME: ${{ secrets.GGG_BACKEND_STATIC_VOLUME }}
                 with:
                     host: ${{ secrets.PETS_HOST }}
                     username: ${{ secrets.PETS_USERNAME }}
