@@ -172,8 +172,8 @@ class SignInView(OAuth2LoginView):
         provider_id = self.unstash_provider(request)
         self.adapter_class = self.get_adapter_class_by_provider_id(provider_id)
         # SocialLogin.verify_and_unstash_state(request, request.data.get("state"))
-        self.verify_and_unstash_state(request, request.data.get("state"))
         logger.info(f"post. state = {request.data.get('state')}")
+        self.verify_and_unstash_state(request, request.data.get("state"))
         return super().post(request, *args, **kwargs)
 
     @classmethod
