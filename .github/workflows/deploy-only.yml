@@ -14,13 +14,13 @@ on:
 
 jobs:
     deploy:
-        name: 🚀 Deploy
+        name: Deploy 🚀
         runs-on: ubuntu-latest
         steps:
-            -   name: 📥 Check out the repo
+            -   name: Check out the repo 📥
                 uses: actions/checkout@v4
 
-            -   name: 🚀 Deploy to Remote Server
+            -   name: Deploy to Remote Server 🚀
                 uses: appleboy/ssh-action@v1.0.0
                 env:
                     SERVER_PROJECT_ROOT_DIR: ${{ env.SERVER_PROJECT_ROOT_DIR }}
