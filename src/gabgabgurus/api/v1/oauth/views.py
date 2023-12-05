@@ -6,7 +6,9 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.oauth2.views import OAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
 from dj_rest_auth.views import LogoutView
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from loguru import logger
@@ -79,12 +81,28 @@ class OAuth2LoginView(SocialLoginView):
 
     def stash_provider(self, provider_name):
         self.request.session["oauth2_provider"] = provider_name
+        session_key = self.request.COOKIES[settings.SESSION_COOKIE_NAME]
+        logger.info(f"session_key = {session_key}")
+        if session_key:
+            cache_key = f"oauth2_provider_{session_key}"
+            cache.set(cache_key, provider_name)
 
     def unstash_provider(self):
+        provider = ""
         if "oauth2_provider" not in self.request.session:
             logger.error("Unable to unstash oauth2_provider from request session")
-            raise PermissionDenied()
-        return self.request.session.pop("oauth2_provider")
+
+            session_key = self.request.COOKIES[settings.SESSION_COOKIE_NAME]
+            logger.info(f"session_key = {session_key}")
+            if session_key:
+                cache_key = f"oauth2_provider_{session_key}"
+                provider = cache.get(cache_key)
+                logger.info(f"provider = {provider}")
+            else:
+                raise PermissionDenied()
+        else:
+            provider = self.request.session.pop("oauth2_provider")
+        return provider
 
     @classmethod
     def get_adapter_class_by_provider_id(cls, provider_id):
