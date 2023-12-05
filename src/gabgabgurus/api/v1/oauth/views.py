@@ -35,6 +35,9 @@ class OAuth2LoginView(SocialLoginView):
         test_key = request.session.get("test_key")
         logger.info(f"get. get-test-key = {test_key}")
 
+        oauth2_provider = request.session.get("oauth2_provider")
+        logger.info(f"get. oauth2_provider = {oauth2_provider}")
+
         session_key = request.COOKIES.get(settings.SESSION_COOKIE_NAME)
         logger.info(f"get. session_key = {session_key}")
 
@@ -42,6 +45,7 @@ class OAuth2LoginView(SocialLoginView):
         request.session["test_key"] = "test_value"
 
         authorize_url = self.get_authorize_url()
+        print(request.session)
         return JsonResponse({"authorize_url": authorize_url})
 
     def set_adapter(self):
