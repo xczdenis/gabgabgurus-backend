@@ -1,5 +1,7 @@
-from rest_framework.generics import ListAPIView
+from rest_framework import status
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.response import Response
 
 from gabgabgurus.api.v1.chats.serializers import channels, messages, user_channels
 from gabgabgurus.apps.chats.selectors import get_channels, get_user_channel_messages, get_user_channels
@@ -8,8 +10,10 @@ from gabgabgurus.apps.chats.services.db import (
     create_message,
     create_user_channels,
     filter_channels_queryset,
+    mark_messages_as_read,
 )
 from gabgabgurus.common.mixins.view import ExtendedCreateAPIView
+from gabgabgurus.common.utils.api import get_validated_data
 
 
 class ChannelListCreateView(ExtendedCreateAPIView, ListAPIView):
@@ -73,3 +77,12 @@ class MessageListCreateView(ExtendedCreateAPIView, ListAPIView):
         validated_data = serializer.validated_data
         validated_data["sender"] = self.request.user
         return create_message(**validated_data)
+
+
+class MessagesMarkAsReadView(GenericAPIView):
+    serializer_class = messages.MarkMessagesAsReadRequest
+
+    def patch(self, request, *args, **kwargs):
+        validated_data = get_validated_data(self.get_serializer_class(), request.data)
+        mark_messages_as_read(**validated_data)
+        return Response({}, status=status.HTTP_200_OK)

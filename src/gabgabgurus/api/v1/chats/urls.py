@@ -9,6 +9,7 @@ urlpatterns = [
     path("channels/", views.ChannelListCreateView.as_view()),
     path("user-channels/", views.UserChannelListCreateView.as_view()),
     path("user-channels/<int:channel_id>/messages/", views.MessageListCreateView.as_view()),
+    path("messages/mark-as-read/", views.MessagesMarkAsReadView.as_view()),
 ]
 
 websocket_urlpatterns = [
