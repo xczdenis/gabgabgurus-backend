@@ -295,7 +295,7 @@ run: down docker-prepare
 
 # down running containers, then build and run docker containers in demon mode for db profile
 .PHONY: run-db
-run-db: down
+run-db: down docker-prepare
 	$(call log, Run containers for db profile (${CURRENT_ENVIRONMENT_PREFIX}))
 	$(call run_docker_compose_for_current_env, --profile db ${COMPOSE_OPTION_START_AS_DEMON} ${s})
 

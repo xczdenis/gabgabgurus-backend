@@ -22,9 +22,9 @@ def avatar_upload_to(instance, filename):
 class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-    AVATAR_MAX_WIDTH = 600
-    AVATAR_MAX_HEIGHT = 600
-    AVATAR_MAX_SIZE_B = 100 * 1024
+    AVATAR_MAX_WIDTH = 2600
+    AVATAR_MAX_HEIGHT = 2600
+    AVATAR_MAX_SIZE_B = 300 * 1024
     AVATAR_COMPRESS_QUALITY = 60
 
     username = None

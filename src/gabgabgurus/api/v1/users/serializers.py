@@ -50,10 +50,6 @@ class MemberBaseResponse(IDSerializer, serializers.Serializer):
     speaks = UserLanguageResponse(many=True)
     learning = UserLanguageResponse(many=True)
     last_activity = TimestampField()
-    # last_activity = serializers.SerializerMethodField()
-    #
-    # def get_last_activity(self, obj):
-    #     return get_user_last_activity_timestamp_from_cache(obj)
 
 
 class MemberListResponse(MemberBaseResponse, serializers.Serializer):

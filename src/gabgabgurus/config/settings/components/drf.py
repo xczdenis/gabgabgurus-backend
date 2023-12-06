@@ -25,4 +25,5 @@ REST_FRAMEWORK = {
     "ALLOWED_VERSIONS": [APIVersions.V1.value],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "EXCEPTION_HANDLER": "gabgabgurus.api.http_error_handlers.http_exception_handler",
+    "UPLOADED_FILES_USE_URL": False,
 }

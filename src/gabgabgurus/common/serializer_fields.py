@@ -2,7 +2,9 @@ import urllib.parse
 from json import JSONDecodeError
 
 import orjson
+from django.conf import settings
 from rest_framework import serializers
+from rest_framework.settings import api_settings
 
 
 class ListJsonBaseField(serializers.Field):
@@ -63,4 +65,11 @@ class DefaultImageField(serializers.ImageField):
     def to_representation(self, value):
         if not value:
             return self.default if self.default is not None else None
-        return super().to_representation(value)
+
+        use_url = getattr(self, "use_url", api_settings.UPLOADED_FILES_USE_URL)
+        if use_url:
+            return super().to_representation(value)
+
+        url = super().to_representation(value)
+
+        return f"{settings.MEDIA_URL}{url}"
