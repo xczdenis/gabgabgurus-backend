@@ -35,6 +35,8 @@ jobs:
                     context: .
                     file: ./deploy/app/Dockerfile
                     push: true
+                    cache-from: type=gha
+                    cache-to: type=gha,mode=max
                     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
                     build-args: |
                         env=${{ env.ENVIRONMENT }}
