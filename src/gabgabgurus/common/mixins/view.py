@@ -87,7 +87,7 @@ class InputOutputSerializerAPIView(GenericAPIView):
         """
         Return the serializer instance that should be used for serializing output after POST request.
         """
-        kwargs.setdefault("context", self.get_serializer_context())
+        # kwargs.setdefault("context", self.get_serializer_context())
         kwargs.pop(self.lookup_field, None)
         return output_serializer_class(operation_result, **kwargs)
 
