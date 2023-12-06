@@ -4,7 +4,6 @@ env:
     ENVIRONMENT: production
     PYTHON_IMG: python:3.11-slim
     APP_IMG_NAME: ggg-b:latest
-    SERVER_PROJECT_ROOT_DIR: ~/gabgabgurus/gabgabgurus-frontend
 
 on:
     pull_request:
@@ -41,3 +40,31 @@ jobs:
                     build-args: |
                         env=${{ env.ENVIRONMENT }}
                         img=${{ env.PYTHON_IMG }}
+
+    deploy:
+        name: Deploy to Remote Server 🚀
+        runs-on: ubuntu-latest
+        needs: [ build ]
+        steps:
+            -   name: Check out the repo 📥
+                uses: actions/checkout@v4
+
+            -   name: Connect to server and run docker 🚀
+                uses: appleboy/ssh-action@v1.0.0
+                env:
+                    SERVER_PROJECT_ROOT_DIR: ${{ secrets.SERVER_PROJECT_ROOT_DIR }}
+                    APP_IMG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
+                    COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
+                    GGG_EXTERNAL_NETWORK: ${{ secrets.GGG_EXTERNAL_NETWORK }}
+                    GGG_BACKEND_STATIC_VOLUME: ${{ secrets.GGG_BACKEND_STATIC_VOLUME }}
+                with:
+                    host: ${{ secrets.PETS_HOST }}
+                    username: ${{ secrets.PETS_USERNAME }}
+                    key: ${{ secrets.PETS_GHA_KEY }}
+                    port: ${{ secrets.PETS_SSH_PORT }}
+                    envs: SERVER_PROJECT_ROOT_DIR, APP_IMG, COMPOSE_PROJECT_NAME, GGG_EXTERNAL_NETWORK, GGG_BACKEND_STATIC_VOLUME
+                    script_stop: true
+                    script: |
+                        cd $SERVER_PROJECT_ROOT_DIR
+                        git pull
+                        . ./deploy/scripts/deploy.sh
