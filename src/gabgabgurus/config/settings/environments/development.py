@@ -52,5 +52,5 @@ DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": custom_show_toolbar}
 # Security
 # https://docs.djangoproject.com/en/dev/topics/security/
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
