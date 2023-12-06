@@ -25,11 +25,18 @@ fi
 log_info "Create a shared docker volume for collect backend static files"
 if ! docker volume ls | grep -q "$GGG_BACKEND_STATIC_VOLUME"; then
     docker volume create "$GGG_BACKEND_STATIC_VOLUME"
-    log_info "Shared docker volume $GGG_BACKEND_STATIC_VOLUME created"
+    log_info "Shared docker volume for static $GGG_BACKEND_STATIC_VOLUME created"
 else
-    log_info "Shared docker volume $GGG_BACKEND_STATIC_VOLUME already exists"
+    log_info "Shared docker volume for static $GGG_BACKEND_STATIC_VOLUME already exists"
 fi
 
+log_info "Create a shared docker volume for collect backend media files"
+if ! docker volume ls | grep -q "$GGG_BACKEND_MEDIA_VOLUME"; then
+    docker volume create "$GGG_BACKEND_MEDIA_VOLUME"
+    log_info "Shared docker volume for media $GGG_BACKEND_MEDIA_VOLUME created"
+else
+    log_info "Shared docker volume for media $GGG_BACKEND_MEDIA_VOLUME already exists"
+fi
 
 log_info "Down docker containers"
 COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default down

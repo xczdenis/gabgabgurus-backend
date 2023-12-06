@@ -235,6 +235,10 @@ docker-prepare:
 		echo "${DANGER}Error: 'GGG_BACKEND_STATIC_VOLUME' is not set.${RESET}"; \
 		exit 1; \
 	fi
+	@if [ -z ${GGG_BACKEND_MEDIA_VOLUME} ]; then \
+    		echo "${DANGER}Error: 'GGG_BACKEND_MEDIA_VOLUME' is not set.${RESET}"; \
+    		exit 1; \
+    	fi
 	@echo "${INFO}Create shared docker network ${ORANGE}${GGG_EXTERNAL_NETWORK}${RESET}:"
 	@if ! docker network ls | grep -q ${GGG_EXTERNAL_NETWORK}; then \
 		docker network create ${GGG_EXTERNAL_NETWORK}; \
@@ -242,12 +246,19 @@ docker-prepare:
 	else \
 		echo ${INFO}Shared docker network ${ORANGE}${GGG_EXTERNAL_NETWORK}${INFO} already exists.${RESET}; \
 	fi
-	@echo "${INFO}Create shared docker volume ${ORANGE}${GGG_BACKEND_STATIC_VOLUME}${RESET}:"
+	@echo "${INFO}Create shared docker volume for static files ${ORANGE}${GGG_BACKEND_STATIC_VOLUME}${RESET}:"
 	@if ! docker volume ls | grep -q ${GGG_BACKEND_STATIC_VOLUME}; then \
 		docker volume create ${GGG_BACKEND_STATIC_VOLUME}; \
 		echo ${SUCCESS}Shared docker volume ${GGG_BACKEND_STATIC_VOLUME} created.${RESET}; \
 	else \
 		echo ${INFO}Shared docker volume ${ORANGE}${GGG_BACKEND_STATIC_VOLUME}${INFO} already exists.${RESET}; \
+	fi
+	@echo "${INFO}Create shared docker volume for media files ${ORANGE}${GGG_BACKEND_MEDIA_VOLUME}${RESET}:"
+	@if ! docker volume ls | grep -q ${GGG_BACKEND_MEDIA_VOLUME}; then \
+		docker volume create ${GGG_BACKEND_MEDIA_VOLUME}; \
+		echo ${SUCCESS}Shared docker volume ${GGG_BACKEND_MEDIA_VOLUME} created.${RESET}; \
+	else \
+		echo ${INFO}Shared docker volume ${ORANGE}${GGG_BACKEND_MEDIA_VOLUME}${INFO} already exists.${RESET}; \
 	fi
 
 

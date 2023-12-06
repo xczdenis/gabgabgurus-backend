@@ -29,6 +29,7 @@ services:
         env_file: .env
         volumes:
             - ggg_backend_static:/app/src/gabgabgurus/staticfiles
+            - ggg_backend_media:/app/src/gabgabgurus/media
         healthcheck:
             test: [ "CMD", "./scripts/wait-for-it.sh", "app:8000" ]
             <<: *common-healthcheck
@@ -62,6 +63,9 @@ volumes:
     ggg_backend_static:
         external: true
         name: ggg_backend_static
+    ggg_backend_media:
+        external: true
+        name: ggg_backend_media
 
 networks:
     ggg_external:
