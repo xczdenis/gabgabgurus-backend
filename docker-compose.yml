@@ -29,8 +29,8 @@ services:
         env_file: .env
         volumes:
             - ggg_backend_static:/app/src/gabgabgurus/staticfiles
-        ports:
-            - ${APP_PORT}:8000
+        #        ports:
+        #            - ${APP_PORT}:8000
         healthcheck:
             test: [ "CMD", "./scripts/wait-for-it.sh", "app:8000" ]
             <<: *common-healthcheck
