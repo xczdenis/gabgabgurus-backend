@@ -39,7 +39,7 @@
 
 <ul>
     <li>
-        <a href="https://gabgabgurus.ru/" target="_blank">GabGabGurus.ru</a> - веб сайт
+        <a target="_blank" href="https://gabgabgurus.ru/" >GabGabGurus.ru</a> - веб сайт
     </li>
     <li>
         <a href="https://gabgabgurus.ru/api/openapi/swagger/?version=v1" target="_blank">OpnAPI Swagger</a> - API в интерфейсе swagger
