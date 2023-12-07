@@ -59,6 +59,15 @@ class UserAdminView(UserAdmin):
         ("Permissions", {"fields": ("groups", "user_permissions")}),
         ("Activity", {"fields": ("last_activity", "date_joined", "last_login")}),
     )
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("email", "first_name", "password1", "password2"),
+            },
+        ),
+    )
     filter_horizontal = ("hobbies", "groups")
     ordering = ("email",)
     autocomplete_fields = ("country",)

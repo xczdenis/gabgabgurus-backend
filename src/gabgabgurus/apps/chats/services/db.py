@@ -75,9 +75,15 @@ def filter_channels_queryset(
             _filter_key += f"__{slug}"
         return _filter_key
 
+    set_participants = None
     if participants is not None:
+        set_participants = set(participants)
+
+    if set_participants is None or len(set_participants) < 2:
+        return queryset.none()
+    else:
         filter_key = make_filter_key("participants", related_field, participant_slug_field)
-        for participant in participants:
+        for participant in set_participants:
             queryset = queryset.filter(**{filter_key: participant})
 
     if channel_type is not None:

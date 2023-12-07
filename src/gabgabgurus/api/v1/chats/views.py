@@ -47,12 +47,12 @@ class UserChannelListCreateView(ExtendedCreateAPIView, ListAPIView):
         if participants_ids:
             participants_ids.append(self.request.user.id)
 
-        queryset = filter_channels_queryset(
-            queryset=queryset,
-            related_field="channel",
-            participants=participants_ids,
-            channel_type=query_params.get("channel_type"),
-        )
+            queryset = filter_channels_queryset(
+                queryset=queryset,
+                related_field="channel",
+                participants=participants_ids,
+                channel_type=query_params.get("channel_type"),
+            )
 
         return queryset
 
