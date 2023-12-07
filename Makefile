@@ -321,28 +321,28 @@ _logs:
 
 
 # run bash into container
-.PHONY: bash bashs
+.PHONY: bash _bash
 bash:
-	@read -p "${ORANGE}Container name: ${RESET}" _TAG && \
-	if [ "_$${_TAG}" != "_" ]; then \
-		make bashs s="$${_TAG}"; \
+	@if [ -z "${s}" ]; then \
+		read -p "${ORANGE}Container name: ${RESET}" _TAG && \
+		make _bash s="$${_TAG}"; \
 	else \
-	    echo aborting; exit 1; \
+	    make _bash s="${s}"; \
 	fi
-bashs:
+_bash:
 	$(call run_docker_compose_for_current_env, exec -it ${s} bash)
 
 
 # run sh into container (e.g. for Redis)
-.PHONY: sh shs
+.PHONY: sh _sh
 sh:
-	@read -p "${ORANGE}Container name: ${RESET}" _TAG && \
-	if [ "_$${_TAG}" != "_" ]; then \
-		make shs s="$${_TAG}"; \
+	@if [ -z "${s}" ]; then \
+		read -p "${ORANGE}Container name: ${RESET}" _TAG && \
+		make _sh s="$${_TAG}"; \
 	else \
-	    echo aborting; exit 1; \
+	    make _sh s="${s}"; \
 	fi
-shs:
+_sh:
 	$(call run_docker_compose_for_current_env, exec -it ${s} sh)
 
 
