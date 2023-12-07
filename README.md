@@ -589,9 +589,7 @@ please enter a commit message in the commitizen format.
 ```
 
 Для более удобного написания комментариев к коммитам, ты можешь воспользоваться плагином
-Conventional Commit для PyCharm:
-
-![conventional-commit-plugin.png](docs%2Fassets%2Fimg%2FPyCharm%2Fconventional-commit-plugin.png)
+Conventional Commit для PyCharm.
 
 ### 🖥️ Настройки IDE [🔝](#-Особенности-разработки-)
 
