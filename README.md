@@ -37,11 +37,23 @@
 
 # GabGabGurus (backend)
 
-* [GabGabGurus.ru](https://gabgabgurus.ru/) - веб сайт
-* [OpnAPI Swagger](https://gabgabgurus.ru/api/openapi/swagger/?version=v1) - API в интерфейсе swagger
-* [OpnAPI Redoc](https://gabgabgurus.ru/api/openapi/redoc/?version=v1) - API в интерфейсе redoc
-* [GabGabGurus (frontend)](https://github.com/xczdenis/gabgabgurus-frontend) - фронтенд на NextJS (React)
-* [GabGabGurus (backend)](https://github.com/xczdenis/gabgabgurus-backend) - backend на Django+DRF
+<ul>
+    <li>
+        <a href="https://gabgabgurus.ru/" target="_blank">GabGabGurus.ru</a> - веб сайт
+    </li>
+    <li>
+        <a href="https://gabgabgurus.ru/api/openapi/swagger/?version=v1" target="_blank">OpnAPI Swagger</a> - API в интерфейсе swagger
+    </li>
+    <li>
+        <a href="https://gabgabgurus.ru/api/openapi/redoc/?version=v1" target="_blank">OpnAPI Redoc</a> - API в интерфейсе redoc
+    </li>
+    <li>
+        <a href="https://github.com/xczdenis/gabgabgurus-frontend" target="_blank">GabGabGurus (frontend)</a> - фронтенд на NextJS (React)
+    </li>
+    <li>
+        <a href="https://github.com/xczdenis/gabgabgurus-backend" target="_blank">GabGabGurus (backend)</a> - backend на Django+DRF
+    </li>
+</ul>
 
 [GabGabGurus.ru](https://gabgabgurus.ru/) - это сервис для поиска собеседников для практики иностранных
 языков. Этот проект создан
