@@ -16,7 +16,8 @@ jobs:
                 uses: actions/checkout@v4
 
             -   name: Create env file ⚙️
-                run: printf "${{ secrets.ENVS_DEV }}" >> .env
+                #                run: printf "${{ secrets.ENVS_DEV }}" >> .env
+                run: echo -e "${{ secrets.ENVS_DEV }}" >> .env
 
             -   name: Build docker containers 🐳
                 run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default build
