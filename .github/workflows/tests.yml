@@ -24,7 +24,9 @@ jobs:
             #                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default build
 
             -   name: Start docker containers 🚀
-                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default up -d --build
+                #                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default up -d --build
+                run: make run
 
             -   name: Run tests ✅
-                run: python -m pytest
+                #                run: python -m pytest
+                run: make tests
