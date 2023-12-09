@@ -1,5 +1,5 @@
 <a href="https://www.djangoproject.com" target="_blank">
-    <img src="https://img.shields.io/static/v1?label=Django&message=4%2B&color=brightgreen&style=flat&logo=django" alt="Django">
+    <img src="https://img.shields.io/static/v1?label=Django&message=5%2B&color=brightgreen&style=flat&logo=django" alt="Django">
 </a>
 
 <a href="https://www.django-rest-framework.org/" target="_blank">
@@ -90,7 +90,7 @@ OpenAPI (swagger), PostgreSQL, Redis и Docker, что обеспечивает 
 
 * **Python 3.11+**;
 * **RESTFull API**:
-    * Django;
+    * Django 5;
     * Django Rest Framework;
     * ASGI: Django channels + Websockets + Daphne;
     * Самодокументируемое API: Swagger и Redoc;

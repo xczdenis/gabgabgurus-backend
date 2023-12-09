@@ -5,7 +5,7 @@ FROM ${img} as base
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    POETRY_VERSION=1.4.0
+    POETRY_VERSION=1.7.0
 
 ARG work_dir
 
@@ -13,10 +13,6 @@ WORKDIR ${work_dir}
 
 
 FROM base as builder
-
-COPY ./scripts ./scripts
-COPY ./deploy/tests/scripts ./scripts
-RUN chmod -R 777 ./scripts
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -32,11 +28,16 @@ COPY ./src ./src
 COPY ./tests ./tests
 
 RUN poetry config virtualenvs.in-project true \
-    && poetry install --only main,content,tests
+    && poetry install --only main,tests
 
+COPY ./scripts ./scripts
+COPY ./deploy/tests/scripts ./scripts
+RUN chmod -R 777 ./scripts
 
 FROM base
 
 COPY --from=builder /${work_dir} /${work_dir}
 
 ENTRYPOINT ["./scripts/entrypoint.sh"]
+
+CMD ["python", "-m", "pytest"]

@@ -6,7 +6,9 @@ env:
     APP_IMG_NAME: ggg-b:latest
 
 on:
-    pull_request:
+    pull_request_target:
+        types:
+            - closed
         branches:
             - "main"
     workflow_dispatch:

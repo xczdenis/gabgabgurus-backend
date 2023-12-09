@@ -10,7 +10,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.11"
-django = "^4.2.3"
+django = "^5.0"
 djangorestframework = "^3.14.0"
 djangorestframework-simplejwt = "^5.2.2"
 django-admin-inline-paginator = "^0.4.0"
@@ -71,7 +71,7 @@ DJANGO_SETTINGS_MODULE = "gabgabgurus.config.settings"
 
 [tool.black]
 line-length = 110
-exclude = '/(\.git|\.venv|\.eggs|build|dist|migrations)/'
+exclude = '/(\.git|\.venv|\.eggs|build|dist|migrations|local|.local|htmlcov)/'
 
 [tool.isort]
 line_length = 110
