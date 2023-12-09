@@ -2,6 +2,7 @@ name: Tests workflow
 
 env:
     ENVIRONMENT: development
+    DOCKER_IMG_PLATFORM: linux/amd64
 
 on:
     pull_request:
@@ -19,13 +20,11 @@ jobs:
                 #                run: printf "${{ secrets.ENVS_DEV }}" >> .env
                 run: echo -e "${{ secrets.ENVS_DEV }}" >> .env
 
-            -   name: Build docker containers 🐳
-                env:
-                    DOCKER_IMG_PLATFORM: linux/amd64
-                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default build
+            #            -   name: Build docker containers 🐳
+            #                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default build
 
             -   name: Start docker containers 🚀
-                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default up -d
+                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default up -d --build
 
             -   name: Run tests ✅
                 run: python -m pytest
