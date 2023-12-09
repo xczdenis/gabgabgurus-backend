@@ -61,8 +61,8 @@ class User(AbstractUser):
     def avatar_is_new(self):
         is_new = False
         if self.pk is not None:
-            orig = User.objects.get(pk=self.pk)
-            if orig.avatar != self.avatar:
+            orig = User.objects.filter(pk=self.pk).first()
+            if orig is not None and orig.avatar != self.avatar:
                 is_new = True
         else:
             is_new = True

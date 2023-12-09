@@ -1,11 +1,18 @@
-# pytest_plugins = (
-#     "tests.fixtures.test_app",
-#     "tests.fixtures.test_client",
-#     "tests.fixtures.fake_db",
-#     "tests.fixtures.users",
-# )
-# def pytest_collection_modifyitems(items):
-#     for item in items:
-#         # if the item belongs to the tests.unit package then add the unit marker
-#         if item.module.__name__.startswith("tests.unit"):
-#             item.add_marker(pytest.mark.unit)
+import pytest
+
+from tests.utils.helpers import is_integration_test, is_unit_test
+
+
+def pytest_collection_modifyitems(config, items):
+    for item in items:
+        if is_unit_test(str(item.fspath)):
+            item.add_marker(pytest.mark.unit)
+        elif is_integration_test(str(item.fspath)):
+            item.add_marker(pytest.mark.integration)
+
+
+pytest_plugins = (
+    "tests.fixtures.users",
+    "tests.fixtures.languages",
+    "tests.fixtures.countries",
+)

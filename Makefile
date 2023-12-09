@@ -147,7 +147,7 @@ define run_docker_compose_for_env
     fi
 endef
 run_docker_compose_for_env:
-	@DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
+	@echo DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
 		COMPOSE_PROJECT_NAME=${PROJECT_NAME} \
 		docker compose \
 			-f ${DOCKER_COMPOSE_MAIN_FILE} \
@@ -460,25 +460,25 @@ tests-docker: down
 
 
 .PHONY: tests
-tests:
+tests: check_pg
 	@cd $(CURDIR) && python -m pytest --cov=gabgabgurus --cov-report html
 
 
 # run tests marked as integration only
 .PHONY: itests
-itests:
+itests: check_pg
 	@cd $(CURDIR) && python -m pytest -m integration --cov=gabgabgurus --cov-report html
 
 
 # run tests marked as unit only
 .PHONY: utests
-utests:
+utests: check_pg
 	@cd $(CURDIR) && python -m pytest -m unit --cov=gabgabgurus --cov-report html
 
 
 # run tests marked as functional only
 .PHONY: ftests
-ftests:
+ftests: check_pg
 	@cd $(CURDIR) && python -m pytest -m functional --cov=gabgabgurus --cov-report html
 
 
