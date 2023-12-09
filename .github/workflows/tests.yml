@@ -20,6 +20,8 @@ jobs:
                 run: echo -e "${{ secrets.ENVS_DEV }}" >> .env
 
             -   name: Build docker containers 🐳
+                env:
+                    DOCKER_IMG_PLATFORM: linux/amd64
                 run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default build
 
             -   name: Start docker containers 🚀
