@@ -26,8 +26,13 @@ jobs:
             -   name: Prepare docker 🐳
                 run: make docker-prepare
 
+            #            -   name: Start docker containers 🚀
+            #                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default up -d --build
+            #
+            #            -   name: Run tests ✅
+            #                run: python -m pytest
             -   name: Start docker containers 🚀
-                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default up -d --build
+                run: docker compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.test.yml --profile default up -d --build
 
-            -   name: Run tests ✅
-                run: python -m pytest
+            -   name: Run tests in docker ✅
+                run: docker compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.test.yml --profile tests run tests

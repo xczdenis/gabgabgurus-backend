@@ -2,6 +2,7 @@
 set -e
 
 ./scripts/wait-dependencies.sh
-./scripts/start.sh
+
+. ./.venv/bin/activate
 
 exec "$@"

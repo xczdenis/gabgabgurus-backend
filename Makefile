@@ -147,7 +147,7 @@ define run_docker_compose_for_env
     fi
 endef
 run_docker_compose_for_env:
-	@DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
+	@echo DOCKER_BUILDKIT=${DOCKER_BUILDKIT} \
 		COMPOSE_PROJECT_NAME=${PROJECT_NAME} \
 		docker compose \
 			-f ${DOCKER_COMPOSE_MAIN_FILE} \
@@ -273,17 +273,20 @@ build-profile:
 
 
 # stop and remove all running containers
-.PHONY: down down-prod down-dev
+.PHONY: down down-prod down-dev down-test
 down:
 	$(call log, Down containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	@make down-prod
 	@make down-dev
+	@make down-test
 down-prod:
 	$(call run_docker_compose_for_env, "${PREFIX_PROD}", "${DOCKER_COMPOSE_PROD_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 	$(call run_docker_compose_for_env, "_", "${DOCKER_COMPOSE_PROD_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 down-dev:
 	$(call run_docker_compose_for_env, "${PREFIX_DEV}", "${DOCKER_COMPOSE_DEV_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 	$(call run_docker_compose_for_env, "_", "${DOCKER_COMPOSE_DEV_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
+down-test:
+	$(call run_docker_compose_for_env, "${PREFIX_TEST}", "${DOCKER_COMPOSE_TEST_FILE}", "${COMPOSE_PROFILE_DEFAULT} --profile tests down")
 
 
 # build and run docker containers in demon mode
@@ -446,13 +449,13 @@ tests-docker: down
 	$(call log, Run tests in docker)
 	@if [ "${DOCKER_COMPOSE_TEST_FILE}" != "_" ]; then \
 		make run_docker_compose_for_env \
-			env=${PREFIX_TEST} \
-			override_file="-f ${DOCKER_COMPOSE_TEST_FILE}" \
-			cmd="--profile default --profile tests build"; \
+			env=${PREFIX_DEV} \
+			override_file="-f ${DOCKER_COMPOSE_DEV_FILE} -f ${DOCKER_COMPOSE_TEST_FILE}" \
+			cmd="--profile default up -d --build"; \
     	make run_docker_compose_for_env \
-			env=${PREFIX_TEST} \
-			override_file="-f ${DOCKER_COMPOSE_TEST_FILE}" \
-			cmd="--profile default --profile tests run tests"; \
+			env=${PREFIX_DEV} \
+			override_file="-f ${DOCKER_COMPOSE_DEV_FILE} -f ${DOCKER_COMPOSE_TEST_FILE}" \
+			cmd="--profile tests run tests"; \
 	else \
 		echo "${RED}ERROR:${RESET} No such file '${DOCKER_COMPOSE_TEST_FILE_NAME}'. Tests cannot be run."; \
 	fi \

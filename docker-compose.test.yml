@@ -1,0 +1,24 @@
+x-base-test-service: &base-test-service
+    restart: "no"
+    networks:
+        - default
+
+services:
+    tests:
+        <<: *base-test-service
+        build:
+            context: .
+            dockerfile: deploy/tests/Dockerfile
+            args:
+                env: ${ENVIRONMENT}
+                img: ${PYTHON_IMG}
+        environment:
+            APP_HOST: app
+            APP_PORT: 8000
+            POSTGRES_HOST: postgres
+            POSTGRES_PORT: 5432
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+        env_file: .env
+        profiles:
+            - tests
