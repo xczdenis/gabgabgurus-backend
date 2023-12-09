@@ -5,7 +5,6 @@ env:
     DOCKER_IMG_PLATFORM: linux/amd64
 
 on:
-    pull_request:
     workflow_dispatch:
 
 jobs:
@@ -17,20 +16,11 @@ jobs:
                 uses: actions/checkout@v4
 
             -   name: Create env file ⚙️
-                #                run: printf "${{ secrets.ENVS_DEV }}" >> .env
                 run: echo -e "${{ secrets.ENVS_DEV }}" >> .env
-
-            #            -   name: Build docker containers 🐳
-            #                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default build
 
             -   name: Prepare docker 🐳
                 run: make docker-prepare
 
-            #            -   name: Start docker containers 🚀
-            #                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default up -d --build
-            #
-            #            -   name: Run tests ✅
-            #                run: python -m pytest
             -   name: Start docker containers 🚀
                 run: docker compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.test.yml --profile default up -d --build
 
