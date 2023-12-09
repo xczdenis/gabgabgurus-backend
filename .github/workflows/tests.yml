@@ -4,9 +4,11 @@ env:
     ENVIRONMENT: production
     PYTHON_IMG: python:3.11-slim
     APP_IMG_NAME: ggg-b:latest
+    POSTGRES_IMG: postgres:16.0-alpine
+    REDIS_IMG: redis:7-alpine
+    NGINX_IMG: nginx:1.25-alpine-slim
 
 on:
-    pull_request:
     workflow_dispatch:
 
 jobs:
@@ -48,7 +50,7 @@ jobs:
                 uses: actions/checkout@v4
 
             -   name: Start docker containers 🚀
-                run: ENVIRONMENT=production DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile db up -d --build
+                run: DOCKER_BUILDKIT=1 COMPOSE_PROJECT_NAME=ggg-b docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile db up -d --build
 
             -   name: Run tests ✅
                 run: python -m pytest
