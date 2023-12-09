@@ -9,6 +9,7 @@ env:
     NGINX_IMG: nginx:1.25-alpine-slim
 
 on:
+    pull_request:
     workflow_dispatch:
 
 jobs:
