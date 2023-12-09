@@ -16,7 +16,7 @@ jobs:
             -   name: Check out the repo 📥
                 uses: actions/checkout@v4
 
-            -   name: Create .env file ⚙️
+            -   name: Create env file ⚙️
                 run: printf "${{ secrets.ENVS_DEV }}" >> .env
 
             -   name: Build docker containers 🐳
