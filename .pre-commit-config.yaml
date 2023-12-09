@@ -27,4 +27,4 @@ repos:
                     - pep8-naming
                     - flake8-bandit
                     - flake8-black
-                exclude: 'migrations/.*|__pycache__/.*|.venv/.*|.env/.*'
+                exclude: 'htmlcov/.*|local/.*|migrations/.*|__pycache__/.*|.venv/.*|.env/.*'

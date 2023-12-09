@@ -458,9 +458,28 @@ tests-docker: down
 	fi \
 
 
+
 .PHONY: tests
 tests:
-	@cd $(CURDIR) && python -m pytest
+	@cd $(CURDIR) && python -m pytest --cov=gabgabgurus --cov-report html
+
+
+# run tests marked as integration only
+.PHONY: itests
+itests:
+	@cd $(CURDIR) && python -m pytest -m integration --cov=gabgabgurus --cov-report html
+
+
+# run tests marked as unit only
+.PHONY: utests
+utests:
+	@cd $(CURDIR) && python -m pytest -m unit --cov=gabgabgurus --cov-report html
+
+
+# run tests marked as functional only
+.PHONY: ftests
+ftests:
+	@cd $(CURDIR) && python -m pytest -m functional --cov=gabgabgurus --cov-report html
 
 
 # create migrations
@@ -534,3 +553,13 @@ serve: check_pg
 .PHONY: send-env
 send-env:
 	@scp -i ${SSH_PUBLIC_KEY_PATH} ./deploy/.env ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
+
+
+.PHONY: parse
+parse:
+	@python ./local/parsing.py ./src/gabgabgurus
+
+
+.PHONY: parse
+fullparse:
+	@python ./local/parsing.py ./src/gabgabgurus --include_content

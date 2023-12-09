@@ -9,6 +9,7 @@ site
 state.json
 celerybeat-schedule.db
 local/
+.local/
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,jetbrains+all,python,django,virtualenv,venv,dotenv,direnv
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,jetbrains+all,python,django,virtualenv,venv,dotenv,direnv
@@ -21,7 +22,7 @@ local/
 *.log
 *.pot
 *.pyc
-__pycache__/
+__pycache__
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
