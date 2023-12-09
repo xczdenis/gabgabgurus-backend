@@ -1,47 +1,13 @@
 name: Tests workflow
 
 env:
-    ENVIRONMENT: production
-    PYTHON_IMG: python:3.11-slim
-    APP_IMG_NAME: ggg-b:latest
-    POSTGRES_IMG: postgres:16.0-alpine
-    REDIS_IMG: redis:7-alpine
-    NGINX_IMG: nginx:1.25-alpine-slim
+    ENVIRONMENT: development
 
 on:
     pull_request:
     workflow_dispatch:
 
 jobs:
-    build:
-        name: Build images 🏗️
-        runs-on: ubuntu-latest
-        steps:
-            -   name: Check out the repo 📥
-                uses: actions/checkout@v4
-
-            -   name: Login to Docker Hub 🔑
-                uses: docker/login-action@v3
-                with:
-                    username: ${{ secrets.DOCKERHUB_USERNAME }}
-                    password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-            -   name: Set up Docker Buildx 🛠️
-                uses: docker/setup-buildx-action@v3
-
-            -   name: Build and push app image 🐳
-                uses: docker/build-push-action@v5
-                with:
-                    context: .
-                    file: ./deploy/app/Dockerfile
-                    push: true
-                    cache-from: type=gha
-                    cache-to: type=gha,mode=max
-                    tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
-                    build-args: |
-                        env=${{ env.ENVIRONMENT }}
-                        img=${{ env.PYTHON_IMG }}
-
     tests:
         name: Run tests 🧪
         runs-on: ubuntu-latest
@@ -50,10 +16,14 @@ jobs:
             -   name: Check out the repo 📥
                 uses: actions/checkout@v4
 
+            -   name: Create .env file ⚙️
+                run: printf "${{ secrets.ENVS_DEV }}" >> .env
+
+            -   name: Build docker containers 🐳
+                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default build
+
             -   name: Start docker containers 🚀
-                env:
-                    APP_IMG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
-                run: DOCKER_BUILDKIT=1 COMPOSE_PROJECT_NAME=ggg-b docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile db up -d --build
+                run: DOCKER_BUILDKIT=1 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile default up -d
 
             -   name: Run tests ✅
                 run: python -m pytest
