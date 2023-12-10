@@ -1,5 +1,5 @@
 ARG env=production
-ARG img=python:3.11-slim
+ARG img=python:3.12-slim
 ARG work_dir=app
 ARG pckg_name=gabgabgurus
 

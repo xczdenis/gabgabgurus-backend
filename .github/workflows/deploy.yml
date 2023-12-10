@@ -2,7 +2,7 @@ name: Deploy workflow
 
 env:
     ENVIRONMENT: production
-    PYTHON_IMG: python:3.11-slim
+    PYTHON_IMG: python:3.12-slim
     APP_IMG_NAME: ggg-b:latest
 
 on:

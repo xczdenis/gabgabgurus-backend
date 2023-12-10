@@ -29,7 +29,7 @@
     <img src="https://img.shields.io/static/v1?label=Docker&message=23&color=%232496ED&style=flat&logo=docker" alt="Docker">
 </a>
 <a href="#">
-    <img src="https://img.shields.io/static/v1?label=python&message=3.11^&color=%233674a8&style=flat&logo=python" alt="Supported Python versions">
+    <img src="https://img.shields.io/static/v1?label=python&message=3.12^&color=%233674a8&style=flat&logo=python" alt="Supported Python versions">
 </a>
 <a href="https://black.readthedocs.io/en/stable/">
     <img src="https://img.shields.io/static/v1?label=style&message=black&color=black&style=flat&logo=python" alt="Supported Python versions">
@@ -92,7 +92,7 @@ OpenAPI (swagger), PostgreSQL, Redis и Docker, что обеспечивает 
 
 ## ✨ Особенности [🔝](#-содержание)
 
-* **Python 3.11+**;
+* **Python 3.12+**;
 * **RESTFull API**:
     * Django 5;
     * Django Rest Framework;
@@ -351,19 +351,111 @@ make down
 
 Для успешного развертывания среды разработки понадобится:
 
-1. Python ^3.11;
-2. Менеджер пакетов [Poetry](https://python-poetry.org/docs/#installation);
-3. Docker (version ^23.0.5). Если у тебя его еще нет,
+1. Python ^3.12;
+2. `postgresql` на локальной машине;
+3. Менеджер пакетов [Poetry](https://python-poetry.org/docs/#installation);
+4. Docker (version ^23.0.5). Если у тебя его еще нет,
    следуй [инструкциям по установке](https://docs.docker.com/get-docker/);
-4. Docker compose (version ^2.17.3). Обратись к официальной
+5. Docker compose (version ^2.17.3). Обратись к официальной
    документации [для установки](https://docs.docker.com/compose/install/);
-5. [Pre-commit](https://pre-commit.com/#install).
+6. [Pre-commit](https://pre-commit.com/#install).
 
 ### 🌐 Создание среды разработки [🔝](#-Режим-разработки-)
+
+#### Важно: подготовка
 
 Перед выполнением команд из этого раздела, убедись, что у тебя установлены все
 компоненты [Pre requirements](#Pre-requirements-), в противном случае, смотри инструкции по установке
 в подразделах ниже.
+
+**ВАЖНО:** проект включает зависимость `psycopg2-binary`. Эта библиотека может быть установлена только
+в том случае, если на хост машине установлена `postgresql` и прописан путь к `pg_config`.
+
+Если `postgresql` не установлена или путь к `pg_config` не прописан, то установка зависимостей через
+`poetry install` завершится подобной ошибкой:
+
+```
+❯ poetry add psycopg2-binary
+Using version ^2.9.9 for psycopg2-binary
+
+Updating dependencies
+Resolving dependencies... (0.3s)
+
+Package operations: 1 install, 0 updates, 0 removals
+
+  • Installing psycopg2-binary (2.9.9): Failed
+
+  ChefBuildError
+
+  Backend subprocess exited when trying to invoke get_requires_for_build_wheel
+
+  running egg_info
+  writing psycopg2_binary.egg-info/PKG-INFO
+  writing dependency_links to psycopg2_binary.egg-info/dependency_links.txt
+  writing top-level names to psycopg2_binary.egg-info/top_level.txt
+
+  Error: pg_config executable not found.
+
+  pg_config is required to build psycopg2 from source.  Please add the directory
+  containing pg_config to the $PATH or specify the full executable path with the
+  option:
+
+      python setup.py build_ext --pg-config /path/to/pg_config build ...
+
+  or with the pg_config option in 'setup.cfg'.
+
+  If you prefer to avoid building psycopg2 from source, please install the PyPI
+  'psycopg2-binary' package instead.
+
+  For further information please check the 'doc/src/install.rst' file (also at
+  <https://www.psycopg.org/docs/install.html>).
+
+
+
+  at ~/Library/Application Support/pypoetry/venv/lib/python3.10/site-packages/poetry/installation/chef.py:166 in _prepare
+      162│
+      163│                 error = ChefBuildError("\n\n".join(message_parts))
+      164│
+      165│             if error is not None:
+    → 166│                 raise error from None
+      167│
+      168│             return path
+      169│
+      170│     def _prepare_sdist(self, archive: Path, destination: Path | None = None) -> Path:
+
+Note: This error originates from the build backend, and is likely not a problem with poetry but with psycopg2-binary (2.9.9) not supporting PEP 517 builds. You can verify this by running 'pip wheel --no-cache-dir --use-pep517 "psycopg2-binary (==2.9.9)"'.
+```
+
+Убедиться что `postgresql` установлена:
+
+```bash
+postgres --version
+```
+
+Результат выполнения команды должен показать версию `postgresql`:
+
+```
+postgres (PostgreSQL) 14.10 (Homebrew)
+```
+
+Если `postgresql` не установлена, то нужно установить:
+
+```bash
+brew install postgresql
+```
+
+Если `postgresql` установлена, то нужно убедиться, что `pg_config` находится в вашем `PATH`:
+
+```bash
+which pg_config
+```
+
+Если команда не возвращает путь, вам нужно добавить директорию, содержащую `pg_config`, в ваш `PATH`. Это
+обычно `/usr/local/bin` или `/usr/bin`.
+
+После этого библиотека `psycopg2-binary` установится без ошибок.
+
+#### Инициализация проекта
 
 Для создания среды разработки, выполни следующие команды одну за другой, из корневой директории проекта:
 
@@ -709,7 +801,7 @@ make remove
 
 ```
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 pydantic = "^1.10.2"
 backoff = "^2.2.1"
 ```
