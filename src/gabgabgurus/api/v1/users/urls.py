@@ -13,5 +13,5 @@ urlpatterns = [
     path("me/avatar/", views.MyAvatarUpdateView.as_view(), name="me_avatar"),
     path("me/languages/", views.MyLanguagesUpdateView.as_view(), name="me_languages"),
     path("me/blocked-users/", views.MyBlockedUsersUpdateView.as_view(), name="me_blocked_users"),
-    path("feedback/", views.FeedbackView.as_view(), name="feedback"),
+    path("me/feedback/", views.FeedbackView.as_view(), name="feedback"),
 ]
