@@ -163,6 +163,7 @@ class MyBlockedUsersUpdateView(InputOutputSerializerAPIView, ListAPIView):
 
 
 class FeedbackView(InputOutputSerializerAPIView, ListAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = serializers.FeedbackResponse
     input_serializer_class = serializers.FeedbackRequest
     output_serializer_class = serializers.FeedbackResponse
