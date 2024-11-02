@@ -112,7 +112,7 @@ class FeedbackRequest(serializers.Serializer):
     text = serializers.CharField()
 
 
-class FeedbackResponse(serializers.Serializer):
+class FeedbackResponse(IDSerializer, serializers.Serializer):
     first_name = serializers.CharField()
     email = serializers.CharField()
     text = serializers.CharField()
