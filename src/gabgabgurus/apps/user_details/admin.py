@@ -14,3 +14,10 @@ class UserLanguageAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request)
+
+
+@admin.register(models.FeedbackMessage)
+class FeedbackMessageAdmin(admin.ModelAdmin):
+    list_display = ("id", "first_name", "email", "processed")
+    list_display_links = ("id", "first_name", "email")
+    search_fields = ("id", "first_name", "email")

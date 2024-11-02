@@ -42,3 +42,18 @@ class UserLanguage(models.Model):
     @property
     def is_native(self):
         return self.is_speaking and self.language_level == LanguageLevels.NATIVE
+
+
+class FeedbackMessage(models.Model):
+    first_name = models.CharField(_("first_name"), max_length=250, null=True)
+    email = models.CharField(_("email"), max_length=250)
+    text = models.CharField(_("text"), max_length=250)
+    processed = models.BooleanField(_("processed"), default=False)
+
+    def __str__(self):
+        return self.first_name or "-"
+
+    class Meta:
+        verbose_name = _("FeedbackMessage")
+        verbose_name_plural = _("FeedbackMessages")
+        ordering = ("first_name",)

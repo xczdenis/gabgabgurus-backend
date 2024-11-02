@@ -104,3 +104,16 @@ class MyBlockedUsersResponse(IDSerializer, serializers.Serializer):
 
 class MyBlockedUsersRequest(serializers.Serializer):
     user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field="id")
+
+
+class FeedbackRequest(serializers.Serializer):
+    first_name = serializers.CharField()
+    email = serializers.CharField()
+    text = serializers.CharField()
+
+
+class FeedbackResponse(serializers.Serializer):
+    first_name = serializers.CharField()
+    email = serializers.CharField()
+    text = serializers.CharField()
+    processed = serializers.BooleanField()

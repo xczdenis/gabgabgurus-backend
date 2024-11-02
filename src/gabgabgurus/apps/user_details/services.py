@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 
 from gabgabgurus.apps.languages.models import Language
-from gabgabgurus.apps.user_details.models import UserLanguage
+from gabgabgurus.apps.user_details.models import FeedbackMessage, UserLanguage
 from gabgabgurus.common.utils.models import get_model_instance, save
 
 User = get_user_model()
@@ -29,3 +29,8 @@ def update_user_language(user_language: UserLanguage, data: dict) -> UserLanguag
         setattr(user_language, field, value)
     save(user_language)
     return user_language
+
+
+def create_feedback_message(data: dict) -> FeedbackMessage:
+    new_instance = FeedbackMessage(**data)
+    return save(new_instance)

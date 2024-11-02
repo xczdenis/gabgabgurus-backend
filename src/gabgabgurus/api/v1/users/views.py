@@ -10,8 +10,9 @@ from rest_framework.views import APIView
 
 from gabgabgurus.api.v1.serializers import BaseUserResponse
 from gabgabgurus.api.v1.users import serializers
+from gabgabgurus.apps.user_details.models import FeedbackMessage
 from gabgabgurus.apps.user_details.selectors import annotate_user_languages_with_relations
-from gabgabgurus.apps.user_details.services import create_update_user_language
+from gabgabgurus.apps.user_details.services import create_feedback_message, create_update_user_language
 from gabgabgurus.apps.users.selectors import annotate_user_queryset_with_relations, get_top_users, get_users
 from gabgabgurus.common.mixins.view import (
     ExtendedUpdateAPIView,
@@ -159,3 +160,19 @@ class MyBlockedUsersUpdateView(InputOutputSerializerAPIView, ListAPIView):
         validated_data = get_validated_data(self.get_serializer_class(), request.data)
         self.request.user.unblock_user(validated_data["user"])
         return Response({})
+
+
+class FeedbackView(InputOutputSerializerAPIView, ListAPIView):
+    serializer_class = serializers.FeedbackResponse
+    input_serializer_class = serializers.FeedbackRequest
+    output_serializer_class = serializers.FeedbackResponse
+
+    def get_queryset(self):
+        return FeedbackMessage.objects.all().filter(processed=False)
+
+    def post(self, request, *args, **kwargs):
+        validated_data = get_validated_data(self.get_serializer_class(), request.data)
+        feedback_message = create_feedback_message(validated_data)
+        output_serializer_class = self.get_output_serializer_class()
+        output_serializer = output_serializer_class(feedback_message)
+        return Response(output_serializer.data, status=status.HTTP_200_OK)

@@ -3,13 +3,14 @@
 
 color_red=$(printf "\033[31m")
 color_green=$(printf "\033[32m")
-color_blue=$(printf "\033[94m")
-color_white=$(printf "\033[97m")
+color_blue=$(printf "\033[34m")
+color_white=$(printf "\033[37m")
 color_turquoise=$(printf "\033[36m")
 color_black=$(printf "\033[30m")
 color_yellow=$(printf "\033[33m")
-color_purple=$(printf "\033[95m")
-color_orange=$(printf "\033[93m")
+color_purple=$(printf "\033[35m")
+
+bg_blue=$(printf "\033[0;37;44m")
 
 color_info=${color_turquoise}
 color_debug=${color_blue}
